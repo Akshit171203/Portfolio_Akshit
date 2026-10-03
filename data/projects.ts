@@ -940,6 +940,11 @@ export const projects: Project[] = [
         alt: "The sign-in page with an email and password form and two feature cards, Enterprise Secure and Instant Translate",
         caption: "Sign in",
       },
+      {
+        src: "/projects/pdf-translator/signup.webp",
+        alt: "The sign-up page with name, email and password fields, with the same two feature cards beside the form",
+        caption: "Create an account",
+      },
     ],
     screensNote: "These are stills only. They show a made-up sample document and come from the real front end running against a mock API.",
     stats: [
