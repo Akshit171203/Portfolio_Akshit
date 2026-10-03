@@ -881,16 +881,16 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "hdfc-translator",
-    name: "HDFC Bank Translator",
+    slug: "pdf-translator",
+    name: "PDF Translator",
     period: "Jan – Apr 2026",
-    kind: "Enterprise web app",
-    role: "Full-stack developer: translation service, sign-in and interface",
+    kind: "Personal project",
+    role: "Creator and full-stack developer: translation service, sign-in and interface",
     tagline:
-      "A document translator for HDFC Bank. Upload a PDF or an image and get it back in Hindi, Marathi, Tamil, Telugu or Malayalam with the layout kept.",
+      "A document translator I built on my own. Upload a PDF or an image and get it back in Hindi, Marathi, Tamil, Telugu or Malayalam with the layout kept.",
     overview: [
       "You upload a PDF or an image, choose the two languages, and watch the original and the translation side by side. For a PDF with real text, the service reads every text block with its position, font size and colour, translates the blocks with Gemini, and writes them back onto the original page in a matching Noto font. A scanned PDF has no text to read, so each page is rendered as an image and translated by Gemini's vision model. Images take the same route.",
-      "It is three parts: a FastAPI translation API, a Node sign-in service and a React front end. The repository has 8 commits across two clones, and all of them are mine.",
+      "It is three parts: a FastAPI translation API, a Node sign-in service and a React front end. It started as a personal project, I designed and wrote every part of it, and all 8 commits in the repository are mine.",
     ],
     points: [
       "Built the translation API in FastAPI: upload, translate, status and download endpoints, with each job running in the background and reporting a message and a percentage that the interface polls every second.",
@@ -918,30 +918,30 @@ export const projects: Project[] = [
     ],
     stack: ["React 19", "Vite", "Tailwind CSS", "Python", "FastAPI", "Gemini", "PyMuPDF", "WeasyPrint", "Express", "PostgreSQL", "Drizzle ORM", "Redis"],
     color: "sky",
-    cover: "/projects/hdfc-translator/login.webp",
+    cover: "/projects/pdf-translator/login.webp",
     screens: [
       {
-        src: "/projects/hdfc-translator/translated.webp",
+        src: "/projects/pdf-translator/translated.webp",
         alt: "The translator showing an English sample document on the left and its Hindi translation on the right, with Download Markdown and Export PDF buttons",
         caption: "A finished translation next to its original",
       },
       {
-        src: "/projects/hdfc-translator/uploaded.webp",
+        src: "/projects/pdf-translator/uploaded.webp",
         alt: "The document settings panel with a PDF uploaded, English to Hindi selected, and the original shown on the left",
         caption: "Upload a file and pick the languages",
       },
       {
-        src: "/projects/hdfc-translator/progress.webp",
+        src: "/projects/pdf-translator/progress.webp",
         alt: "The translation in progress, with a progress bar at 62 percent and a message about translating page 1",
         caption: "Live progress while the job runs",
       },
       {
-        src: "/projects/hdfc-translator/login.webp",
-        alt: "The sign-in page with CoRover, BharatGPT and HDFC Bank logos, an email and password form, and two feature cards",
+        src: "/projects/pdf-translator/login.webp",
+        alt: "The sign-in page with an email and password form and two feature cards, Enterprise Secure and Instant Translate",
         caption: "Sign in",
       },
     ],
-    screensNote: "This is a client's tool, so these are stills only. They show a made-up sample document, not real bank content, and come from the real frontend running against a mock API.",
+    screensNote: "These are stills only. They show a made-up sample document and come from the real front end running against a mock API.",
     stats: [
       { to: 8, label: "commits in the repository, all mine" },
       { to: 3, label: "services: translation, sign-in and the interface" },
