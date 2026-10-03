@@ -7,6 +7,7 @@
   --muted: #5b5951;
   --line: rgb(20 20 18 / 0.15);
   --surface: #ebe7dc;
+  --glow: 0.5;
   color-scheme: light;
 }
 
@@ -16,6 +17,7 @@
   --muted: #a5a296;
   --line: rgb(243 240 232 / 0.16);
   --surface: #181815;
+  --glow: 0.3;
   color-scheme: dark;
 }
 
