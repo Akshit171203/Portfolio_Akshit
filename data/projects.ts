@@ -34,6 +34,8 @@ export type Project = {
     video?: { mp4: string; webm: string };
     /** Small pill shown over the frame, e.g. "Live demo". */
     badge?: string;
+    /** Width / height of the image. Defaults to 1.6 (2880x1800). */
+    ratio?: number;
   }[];
   /** Where the screenshots come from. */
   screensNote?: string;
@@ -422,26 +424,31 @@ export const projects: Project[] = [
       },
       {
         src: "/projects/grse-dashboard/insights.webp",
+        ratio: 2.317,
         alt: "Metric explorer with a metric rail and area chart, beside a weekly query pattern drawn as heat rows",
         caption: "Metric explorer and weekly pattern",
       },
       {
         src: "/projects/grse-dashboard/live-map.webp",
+        ratio: 2.054,
         alt: "Live user map of India with bubble markers, a ranked top-regions panel and Streets, Minimal and Satellite style buttons",
         caption: "Live user map with a ranked regions panel",
       },
       {
         src: "/projects/grse-dashboard/conversations.webp",
+        ratio: 1.598,
         alt: "Conversations table with date, time, question, answer, intent and sentiment columns, plus Download CSV and PDF report buttons",
         caption: "Conversations: server paging, CSV and PDF export",
       },
       {
         src: "/projects/grse-dashboard/grievances.webp",
+        ratio: 1.5,
         alt: "Grievances table with category filter chips, sortable columns and a category pill on each row",
         caption: "Grievances: category chips, sorting and filters",
       },
       {
         src: "/projects/grse-dashboard/brand-studio.webp",
+        ratio: 1.44,
         alt: "Brand Studio with tabbed colour controls on the left and a live preview of the login page on the right",
         caption: "Brand Studio: edit on the left, the real app updates on the right",
       },
