@@ -38,7 +38,7 @@ const principles = [
 ];
 
 export function AboutPage() {
-  const atCorover = projects.filter((p) => ["corover", "whatsapp-platform", "builder-v2", "bharatgpt", "corover-bot-widget", "hdfc-translator", "kanha-ai"].includes(p.slug));
+  const atCorover = projects.filter((p) => ["corover", "whatsapp-platform", "grse-dashboard", "builder-v2", "bharatgpt", "corover-bot-widget", "hdfc-translator", "kanha-ai"].includes(p.slug));
 
   return (
     <div className="pt-36 sm:pt-44">

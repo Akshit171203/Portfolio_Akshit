@@ -358,6 +358,156 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "grse-dashboard",
+    name: "GRSE Analytics Dashboard",
+    period: "Sep – Oct 2026",
+    kind: "Analytics dashboard",
+    role: "Frontend developer: redesign, analytics wiring and Brand Studio",
+    tagline:
+      "A chatbot analytics dashboard for CoRover and BharatGPT assistants, re-skinned and rebuilt for a client, with a Brand Studio that themes each new chatbot from one JSON file.",
+    overview: [
+      "The dashboard shows how a chatbot is used: messages, users, intents, sentiment, devices, where people are, every conversation, feedback and grievances. It started as a React and Vite app for another client's assistant, and the same codebase now serves new chatbots by changing a tenant id and a branding file.",
+      "I joined an app that already existed. Teammates wrote the shell, sign-in, tenant config, knowledge base and employee pages. My part, from late September 2026, was the GRSE dashboard: I redesigned the screens and charts, wired them to the analytics APIs, added the grievance and training-feedback tables and PDF reports, and built the Brand Studio and the theme system behind it. By git blame that is about a third of today's code, 24 of 36 commits.",
+    ],
+    points: [
+      "Built Brand Studio: a hidden page where a designer edits colours, gradient, chart and status colours, fonts, corner radius, shadows, logos and copy, and watches the real app update beside it (login or dashboard, desktop or mobile, light or dark), with contrast warnings.",
+      "Made the whole UI themeable from one branding.json. Hard-coded colours became CSS variables, and charts, tooltips, the data grid and the map follow the same file. The file can be dropped next to index.html, so a new chatbot needs no rebuild.",
+      "Wired the dashboard to 11 analytics endpoints. Each response is mapped to the shape its panel expects, and a failing endpoint shows flagged sample data instead of breaking the page.",
+      "Redesigned the charts: a query-trend lollipop with the peak and average marked, a ranked intents donut, heat-row weekly pattern, a returning-users gauge, a dot-matrix device split, a metric explorer, and a live user map with three map styles.",
+      "Added conversation, grievance and training-feedback tables on AG Grid with server paging, filters, category chips, row detail, CSV export, and a PDF report built in the browser.",
+      "Redesigned the sidebar (grouped navigation, collapsible with hover peek, user card) and the login page, and moved attachment and image links onto short-lived signed URLs.",
+    ],
+    features: [
+      { title: "Brand Studio", body: "Six tabs (colours, charts, surfaces, type, logos, text), a live preview of the real app in a phone or desktop frame, import and export of branding.json." },
+      { title: "Theme system", body: "One JSON file drives CSS variables, chart palettes, the map style, fonts from Google Fonts, the favicon and the tab title, and is cached for instant first paint." },
+      { title: "Trends and intents", body: "A query trend chart with the peak and average marked, and top intents with a full ranked breakdown, shown under the KPI cards." },
+      { title: "Insight panels", body: "Metric explorer, weekly pattern, sentiments, user growth, device split and a language, input and algorithm breakdown." },
+      { title: "Live user map", body: "Regions as bubbles with a ranked panel, three map styles, and tap-to-zoom." },
+      { title: "Conversations", body: "A server-paged table with filters, a chat viewer, CSV export and a landscape PDF report of the selected range." },
+      { title: "Grievances and feedback", body: "Category chips, row detail, signed attachment links and CSV export, plus a training-feedback table for the bot team." },
+      { title: "Bot resources", body: "Carousel images and marquee links for the test and production bots, loaded through signed URLs." },
+    ],
+    architecture: [
+      { title: "One app, many chatbots", body: "The signed-in user carries an appId. A config map decides which sidebar tabs and KPI tiles that tenant sees, and an unknown tenant sees only the dashboard." },
+      { title: "Sign-in", body: "Credentials, then an OTP step with a captcha, then a bearer token stored in the browser. A gate in the app shell shows the login page until a token exists." },
+      { title: "Global date range", body: "A context holds the selected range. Every widget reads it, and changing it refetches all of them." },
+      { title: "Same-origin API", body: "The browser calls relative paths. In development Vite proxies them to the UAT server, and in production a reverse proxy does the same." },
+    ],
+    architectureNote:
+      "The app shell, sign-in, tenant config and date-range context were written by teammates before I joined. I include them because everything I built sits on top of them.",
+    stack: [
+      "React 19",
+      "Vite",
+      "Tailwind CSS",
+      "AG Grid",
+      "Recharts",
+      "Leaflet",
+      "jsPDF",
+      "Lucide",
+      "ESLint",
+    ],
+    color: "butter",
+    screens: [
+      {
+        src: "/projects/grse-dashboard/demo-poster.jpg",
+        video: { mp4: "/projects/grse-dashboard/demo.mp4", webm: "/projects/grse-dashboard/demo.webm" },
+        badge: "Walkthrough",
+        alt: "Screen recording of the analytics dashboard: scrolling through charts, the live map, conversations and grievances, switching theme, then editing the look in Brand Studio",
+        caption: "Walkthrough: the dashboard, the theme switch and Brand Studio",
+      },
+      {
+        src: "/projects/grse-dashboard/dashboard.webp",
+        alt: "Analytics dashboard overview with five KPI cards, a query trend chart and a top intents donut with a ranked list",
+        caption: "Overview: KPIs, query trend and top intents",
+      },
+      {
+        src: "/projects/grse-dashboard/insights.webp",
+        alt: "Metric explorer with a metric rail and area chart, beside a weekly query pattern drawn as heat rows",
+        caption: "Metric explorer and weekly pattern",
+      },
+      {
+        src: "/projects/grse-dashboard/live-map.webp",
+        alt: "Live user map of India with bubble markers, a ranked top-regions panel and Streets, Minimal and Satellite style buttons",
+        caption: "Live user map with a ranked regions panel",
+      },
+      {
+        src: "/projects/grse-dashboard/conversations.webp",
+        alt: "Conversations table with date, time, question, answer, intent and sentiment columns, plus Download CSV and PDF report buttons",
+        caption: "Conversations: server paging, CSV and PDF export",
+      },
+      {
+        src: "/projects/grse-dashboard/grievances.webp",
+        alt: "Grievances table with category filter chips, sortable columns and a category pill on each row",
+        caption: "Grievances: category chips, sorting and filters",
+      },
+      {
+        src: "/projects/grse-dashboard/brand-studio.webp",
+        alt: "Brand Studio with tabbed colour controls on the left and a live preview of the login page on the right",
+        caption: "Brand Studio: edit on the left, the real app updates on the right",
+      },
+      {
+        src: "/projects/grse-dashboard/light-theme.webp",
+        alt: "The same dashboard overview in the light theme",
+        caption: "The light theme, from the same branding file",
+      },
+    ],
+    screensNote:
+      "These are the real frontend running locally against a mock API. Every name, number and question is made up, and the map tiles come from OpenStreetMap.",
+    stats: [
+      { to: 24, label: "commits by me, of 36 in the repo" },
+      { to: 5000, suffix: "+", label: "lines of today's code written by me, of about 14,900" },
+      { to: 11, label: "analytics endpoints wired to panels" },
+      { to: 6, label: "tabs of controls in Brand Studio" },
+    ],
+    statsNote: "Counted from git blame and the commit log of the repository.",
+    flows: [
+      {
+        title: "Branding a new chatbot",
+        steps: ["Open Brand Studio", "Edit colours, fonts and logos", "Check contrast warnings", "Export branding.json", "Drop it beside index.html", "Live with no rebuild"],
+      },
+      {
+        title: "Loading the dashboard",
+        steps: ["Pick a date range", "11 analytics calls in parallel", "Map each reply to a panel", "Render the charts", "Flag any panel on sample data"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Grid filter menus that showed the table through them",
+        body: "The data grid's body is transparent, so its filter popup and operator list inherited that and the table text showed behind the menu. I gave the menus a solid surface, border and shadow through the grid's theme settings, in both light and dark.",
+      },
+      {
+        title: "A map API with no coordinates",
+        body: "The geo endpoint returned zero for latitude and longitude. I plot the cities I could place from a small lookup and still list every region in the ranked panel, so nothing is hidden.",
+      },
+      {
+        title: "A theme editor that can produce unreadable screens",
+        body: "Letting a designer pick any colour makes low-contrast text easy. Studio checks pairs against WCAG contrast ratios and warns, and dark-theme controls use a lighter accent so Studio stays readable while you edit.",
+      },
+      {
+        title: "One failing endpoint should not blank the page",
+        body: "A non-OK reply returns null instead of throwing, so the other calls still land. Panels without data fall back to sample data and carry a Pending flag, so a mock is never mistaken for real numbers.",
+      },
+    ],
+    decisions: [
+      {
+        q: "A JSON file instead of a settings database",
+        a: "A branding.json can be reviewed, copied to the next chatbot and replaced on a live server without a rebuild. A database would have needed an admin API for something that changes a few times a year.",
+      },
+      {
+        q: "Layout stays in code, only the look is configurable",
+        a: "Which widgets exist and where they sit is code. Letting config rearrange the page would multiply the states to test, and every client so far has wanted the same structure in a different skin.",
+      },
+      {
+        q: "Load the PDF library on demand",
+        a: "jsPDF is only fetched when someone presses the PDF report button, so it stays out of the main bundle.",
+      },
+      {
+        q: "Signed URLs that fall back to the original",
+        a: "Attachments and images are swapped for short-lived signed links. If that endpoint is unavailable the original link is used, so nothing breaks while the backend catches up.",
+      },
+    ],
+  },
+  {
     slug: "corover",
     name: "CoRover.ai",
     kind: "Production website",
