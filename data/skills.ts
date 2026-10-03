@@ -12,9 +12,3 @@ export const skillGroups: { name: string; skills: string[] }[] = [
   },
   { name: "DevOps / Infra", skills: ["Docker", "Git", "GitHub Actions", "Vercel", "Render"] },
 ];
-
-/** Two rows for the scrolling marquee. */
-export const skillRows: string[][] = [
-  ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite", "Radix UI", "JavaScript"],
-  ["Node.js", "Express.js", "PostgreSQL", "Redis", "Socket.IO", "LLM APIs", "RAG", "AI Agents", "Docker"],
-];

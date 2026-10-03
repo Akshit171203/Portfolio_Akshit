@@ -14,76 +14,77 @@ const STATEMENT = "I’m a software engineer focused on building reliable, scala
 
 const AREAS = ["Frontend architecture", "Backend APIs", "Databases", "Real-time systems", "AI-powered product experiences"];
 
-const TILES = [
-  { to: 1.5, decimals: 1, suffix: "+", label: "years of professional experience", color: "lime", wide: true },
-  { to: projects.length, decimals: 0, suffix: "", label: "projects across web, AI and internal tools", color: "sky", wide: false },
-  { to: 100, decimals: 0, suffix: "", label: "commits on the CoRover.ai site, of 107", color: "pink", wide: false },
+const FIGURES = [
+  { to: 1.5, decimals: 1, suffix: "+", label: "years of professional experience", color: "lime" },
+  { to: projects.length, decimals: 0, suffix: "", label: "projects across web, AI and internal tools", color: "sky" },
+  { to: 100, decimals: 0, suffix: "", label: "commits on the CoRover.ai site, of 107", color: "pink" },
 ];
 
-/** Home teaser: a short statement and the areas I work in, beside three headline numbers. */
+/** Home teaser: a statement, three figures in a ledger, and the areas I work in as a numbered list. */
 export function AboutTeaser() {
   return (
-    <section aria-labelledby="about-teaser" className="py-20 sm:py-28">
-      <div className="container-page grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-7">
-          <h2 id="about-teaser" className="mb-6 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted">
+    <section aria-labelledby="about-teaser" className="pb-6 pt-20 sm:pb-10 sm:pt-28">
+      <div className="container-page">
+        <div className="mb-8 flex items-center justify-between gap-6">
+          <h2 id="about-teaser" className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted">
             <span aria-hidden className="h-2 w-2 rounded-full bg-lime" />
             About
           </h2>
-          <WordReveal text={STATEMENT} className="font-display text-[clamp(1.75rem,3.6vw,3rem)] font-semibold leading-[1.15]" />
-
-          <motion.ul
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-            transition={{ staggerChildren: 0.06 }}
-            aria-label="Areas I work in"
-            className="mt-8 flex flex-wrap gap-2"
-          >
-            {AREAS.map((a) => (
-              <motion.li
-                key={a}
-                variants={{ hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0 } }}
-                transition={{ duration: 0.5, ease: EASE }}
-                className="rounded-full border border-line px-4 py-2 text-sm font-medium transition-colors hover:border-fg/50 hover:bg-fg/[0.06]"
-              >
-                {a}
-              </motion.li>
-            ))}
-          </motion.ul>
-
-          <div className="mt-10">
-            <Magnetic>
-              <TransitionLink
-                href="/about"
-                label="About"
-                color="lilac"
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-line px-7 font-semibold transition-colors hover:bg-fg hover:text-bg"
-              >
-                More about me <ArrowRightIcon size={16} />
-              </TransitionLink>
-            </Magnetic>
-          </div>
+          <Magnetic>
+            <TransitionLink href="/about" label="About" color="lilac" className="group inline-flex items-center gap-2 text-sm font-semibold">
+              <span className="underline-offset-4 group-hover:underline">More about me</span>
+              <span className="grid h-8 w-8 place-items-center rounded-full border border-line transition-all duration-300 group-hover:-rotate-45 group-hover:border-transparent group-hover:bg-fg group-hover:text-bg">
+                <ArrowRightIcon size={14} />
+              </span>
+            </TransitionLink>
+          </Magnetic>
         </div>
 
-        <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-5">
-          {TILES.map((t, i) => (
+        <WordReveal text={STATEMENT} className="font-display max-w-5xl text-[clamp(1.9rem,4.4vw,3.9rem)] font-semibold leading-[1.1] tracking-tight" />
+
+        {/* The figures: one ledger, hairline dividers, no filled tiles */}
+        <dl className="mt-14 grid grid-cols-1 divide-y divide-line overflow-hidden rounded-[2rem] border border-line sm:mt-20 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {FIGURES.map((f, i) => (
             <motion.div
-              key={t.label}
-              initial={{ opacity: 0, y: 30 }}
+              key={f.label}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -8% 0px" }}
               transition={{ duration: 0.7, delay: i * 0.08, ease: EASE }}
-              className={`flex flex-col-reverse justify-between gap-6 rounded-3xl p-6 text-ink transition-transform duration-500 hover:-translate-y-1 sm:p-7 ${t.wide ? "col-span-2" : ""}`}
-              style={{ background: `var(--${t.color})`, minHeight: t.wide ? "11rem" : "10rem" }}
+              className="group relative flex flex-col justify-between gap-10 p-7 transition-colors duration-500 hover:bg-fg/[0.03] sm:min-h-[13rem] sm:p-9"
             >
-              <dt className="max-w-[16rem] text-sm font-medium leading-snug opacity-80">{t.label}</dt>
+              <dt className="flex items-start gap-3 text-sm leading-snug text-muted">
+                <span aria-hidden className="mt-1.5 h-2 w-2 shrink-0 rounded-full transition-transform duration-300 group-hover:scale-150" style={{ background: `var(--${f.color})` }} />
+                {f.label}
+              </dt>
               <dd className="font-display text-6xl font-extrabold leading-none tracking-tight sm:text-7xl">
-                <CountUp to={t.to} decimals={t.decimals} suffix={t.suffix} />
+                <CountUp to={f.to} decimals={f.decimals} suffix={f.suffix} />
               </dd>
             </motion.div>
           ))}
         </dl>
+
+        {/* Where I work, as a numbered list */}
+        <motion.ol
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+          transition={{ staggerChildren: 0.07 }}
+          aria-label="Areas I work in"
+          className="mt-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:grid-cols-5"
+        >
+          {AREAS.map((area, i) => (
+            <motion.li
+              key={area}
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.55, ease: EASE }}
+              className="group border-t border-line py-5 transition-colors duration-300 hover:border-fg"
+            >
+              <span className="font-display text-xs font-semibold tracking-[0.2em] text-muted transition-colors group-hover:text-fg">{String(i + 1).padStart(2, "0")}</span>
+              <p className="mt-2 text-[1.0625rem] font-semibold leading-snug">{area}</p>
+            </motion.li>
+          ))}
+        </motion.ol>
       </div>
     </section>
   );

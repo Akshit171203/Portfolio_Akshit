@@ -1,13 +1,13 @@
 import { AboutTeaser } from "@/components/sections/AboutTeaser";
 import { Hero } from "@/components/sections/Hero";
-import { Marquee } from "@/components/sections/Marquee";
 import { Showcase } from "@/components/sections/Showcase";
+import { Toolbox } from "@/components/sections/Toolbox";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Marquee />
+      <Toolbox />
       <AboutTeaser />
       <Showcase />
     </>
