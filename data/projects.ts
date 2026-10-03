@@ -1121,12 +1121,65 @@ export const projects: Project[] = [
     slug: "kanha-ai",
     name: "Kanha AI",
     period: "Feb 2026 – Present",
-    kind: "Product experience",
-    tagline: "An AI-focused product and marketing experience. Ongoing.",
-    points: ["Built with React and Vite"],
-    stack: ["React", "Vite"],
+    kind: "Product website",
+    role: "Frontend developer",
+    tagline:
+      "The website for Kanha AI, a voice-first AI companion for children aged 3 to 13, built as a handcrafted device with no screen.",
+    overview: [
+      "Kanha AI is a CoRover product: a small handcrafted device a child talks to, with a parent app alongside it. The website introduces it in three parts: a full-screen hero, a section on what makes it different, and a section for parents. Its tone is warm, rounded and unhurried, to match a product that is meant to be talked to rather than looked at.",
+      "The brand draws on the spirit of Krishna, so the page sets a verse from the Bhagavad Gita in Sanskrit and English in a band between the hero and the rest. It is a small static page, with no backend, built from four React components.",
+    ],
+    points: [
+      "Built the page in React 19, Vite and Tailwind CSS 4 as four components: the hero, the quote band, the features and the section on what makes Kanha different.",
+      "Designed the opening around the product: a full-screen photo of the device with the Kanha logo and the CoRover, BharatGPT and Edgehax marks, then an introduction with five feature chips, a call to action and a photo collage.",
+      "Set the Bhagavad Gita verse in a dark band, in Devanagari and in English, with the attribution.",
+      "Built the four value cards (voice-first, responsive, the spirit of Krishna, no screen time) around a photo of the device with a caption.",
+      "Built the section for parents: a dark panel listing what the parent app shows, beside example prompts that Kanha might say to a child.",
+      "Chose a warm type system, Pangolin for headings, Poppins for text and Outfit for display, and made the layout responsive with Tailwind breakpoints.",
+    ],
+    features: [
+      { title: "A hero about the device", body: "A full-screen photo of Kanha with the logo and partner marks, so the product is the first thing you see." },
+      { title: "Five feature chips", body: "Playful teacher, storyteller, thoughtful companion, parent governance, and handcrafted and child-safe." },
+      { title: "A verse from the Gita", body: "A quote band with the Sanskrit and its English, attributed to Krishna, setting the tone for the brand." },
+      { title: "Four value cards", body: "Voice-first interaction, responsive AI, the spirit of Krishna and no screen time, arranged around the device." },
+      { title: "A parent panel", body: "Interaction summaries, emotional signals, active hours, smart alerts and custom nudges, in the parent app." },
+      { title: "Gentle nudges", body: "Example lines such as a good-morning greeting or a quiet check-in, showing how Kanha starts a conversation." },
+    ],
+    stack: ["React 19", "Vite", "Tailwind CSS", "Lucide icons"],
     color: "pink",
+    screens: [
+      {
+        src: "/projects/kanha-ai/demo-poster.jpg",
+        video: { mp4: "/projects/kanha-ai/demo.mp4", webm: "/projects/kanha-ai/demo.webm" },
+        badge: "Scroll-through",
+        alt: "Screen recording scrolling through the Kanha AI website: the hero, the introduction, the quote band, the value cards and the parents section",
+        caption: "A scroll through the whole page",
+      },
+      {
+        src: "/projects/kanha-ai/introduction.webp",
+        alt: "The Kanha AI introduction: Hi, I'm Kanha, with feature chips, a call to action and a photo collage of the device",
+        caption: "The introduction, with a collage of the device",
+      },
+      {
+        src: "/projects/kanha-ai/different.webp",
+        alt: "The section What makes Kanha AI different, with four value cards around a photo of the device",
+        caption: "What makes Kanha different",
+      },
+      {
+        src: "/projects/kanha-ai/parents.webp",
+        alt: "A dark panel headed Designed for Parents Too, beside Proactive Guidance with example messages",
+        caption: "Designed for parents too",
+      },
+    ],
+    screensNote: "A product website, shown as it renders from its real code.",
+    stats: [
+      { to: 4, label: "components, one for each part of the page" },
+      { to: 3, label: "typefaces: Pangolin, Poppins and Outfit" },
+      { to: 950, suffix: "+", label: "lines of code and styles" },
+    ],
+    statsNote: "Counted from the source files I was given. The folder came without its history, so this is size, not a share of the work.",
   },
+
 ];
 
 export function getProjectUrls(slug: string) {
