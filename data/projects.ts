@@ -37,6 +37,8 @@ export type Project = {
     /** Width / height of the image. Defaults to 1.6 (2880x1800). */
     ratio?: number;
   }[];
+  /** Image shown on the Work list and the home grid. Defaults to the first still screenshot. */
+  cover?: string;
   /** Where the screenshots come from. */
   screensNote?: string;
   /** A short intro, shown first on the project page. */
@@ -916,6 +918,7 @@ export const projects: Project[] = [
     ],
     stack: ["React 19", "Vite", "Tailwind CSS", "Python", "FastAPI", "Gemini", "PyMuPDF", "WeasyPrint", "Express", "PostgreSQL", "Drizzle ORM", "Redis"],
     color: "sky",
+    cover: "/projects/hdfc-translator/login.webp",
     screens: [
       {
         src: "/projects/hdfc-translator/translated.webp",
@@ -1037,6 +1040,7 @@ export const projects: Project[] = [
     ],
     stack: ["React 19", "Create React App", "Sanity CMS", "Framer Motion", "CSS", "YouTube player API"],
     color: "mint",
+    cover: "/projects/bharatgpt/home.webp",
     screens: [
       {
         src: "/projects/bharatgpt/demo-poster.jpg",

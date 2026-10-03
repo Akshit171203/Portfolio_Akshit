@@ -27,8 +27,8 @@ type Props = {
  */
 export function ProjectCard({ project: p, index, big = false, tagline = false, delay = 0, className }: Props) {
   // a still screenshot, not the video poster (a poster can be a blank first frame)
-  const shot = p.screens?.find((x) => !x.video) ?? p.screens?.[0];
-  const showTagline = big || (tagline && !shot);
+  const coverSrc = p.cover ?? (p.screens?.find((x) => !x.video) ?? p.screens?.[0])?.src;
+  const showTagline = big || (tagline && !coverSrc);
   return (
     <motion.li
       layout
@@ -74,10 +74,10 @@ export function ProjectCard({ project: p, index, big = false, tagline = false, d
           {p.stackPlaceholder && <li className="rounded-full border border-dashed border-ink/40 px-2.5 py-1 text-xs font-semibold">[ADD TECH STACK]</li>}
         </ul>
 
-        {shot ? (
+        {coverSrc ? (
           <div aria-hidden className="relative mx-6 mt-5 min-h-40 flex-1 overflow-hidden rounded-t-xl border border-b-0 border-ink/20 bg-black shadow-[0_-20px_50px_-20px_rgb(0_0_0/0.45)] sm:mx-7">
             <Image
-              src={shot.src}
+              src={coverSrc}
               alt=""
               fill
               sizes="(min-width: 768px) 40vw, 90vw"

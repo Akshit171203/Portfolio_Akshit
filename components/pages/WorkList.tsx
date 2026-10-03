@@ -25,7 +25,7 @@ const FILTERS: { id: FilterId; label: string }[] = [
 
 /** One project as a slim row: numbers on the left, the story in the middle, a thumbnail on the right. */
 function Row({ project: p, index }: { project: Project; index: number }) {
-  const shot = p.screens?.find((x) => !x.video) ?? p.screens?.[0];
+  const coverSrc = p.cover ?? (p.screens?.find((x) => !x.video) ?? p.screens?.[0])?.src;
   return (
     <motion.li
       layout
@@ -82,8 +82,8 @@ function Row({ project: p, index }: { project: Project; index: number }) {
           {/* a block of the project colour sits behind the thumbnail, offset like a shadow */}
           <span aria-hidden className="absolute -bottom-2 -right-2 left-2 top-2 rounded-xl transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" style={{ background: `var(--${p.color})` }} />
           <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-surface transition-transform duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1">
-            {shot ? (
-              <Image src={shot.src} alt="" fill sizes="(min-width: 768px) 256px, 90vw" className="object-cover object-top" />
+            {coverSrc ? (
+              <Image src={coverSrc} alt="" fill sizes="(min-width: 768px) 256px, 90vw" className="object-cover object-top" />
             ) : (
               <span aria-hidden className="font-display absolute inset-0 grid place-items-center text-7xl font-extrabold text-ink" style={{ background: `var(--${p.color})` }}>
                 {p.name.charAt(0)}
