@@ -18,24 +18,27 @@ function Card({ project: p, index, pinned }: { project: Project; index: number; 
       data-cursor="View"
       style={{ background: `var(--${p.color})` }}
       className={`group relative flex shrink-0 flex-col justify-between overflow-hidden rounded-[2rem] p-7 text-ink sm:p-9 ${
-        pinned ? `h-[62vh] max-h-[34rem] ${shot ? "w-[min(88vw,50rem)]" : "w-[min(80vw,30rem)]"}` : "min-h-[26rem] w-full"
+        pinned ? `h-[70vh] min-h-[21rem] max-h-[36rem] ${shot ? "w-[min(88vw,52rem)]" : "w-[min(80vw,30rem)]"}` : "min-h-[26rem] w-full"
       }`}
     >
       <span aria-hidden className="font-display pointer-events-none absolute -right-4 -top-8 text-[11rem] font-extrabold leading-none opacity-[0.12] transition-transform duration-500 group-hover:-translate-x-3 group-hover:translate-y-3 group-hover:rotate-6">
         {String(index + 1).padStart(2, "0")}
       </span>
       {shot && (
-        <div aria-hidden className="pointer-events-none absolute -right-10 top-24 hidden w-[56%] rotate-[-4deg] overflow-hidden rounded-2xl border border-ink/20 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg] md:block">
+        <div aria-hidden className="pointer-events-none absolute -right-14 bottom-[9%] hidden w-[55%] rotate-[-4deg] overflow-hidden rounded-2xl border border-ink/20 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg] md:block">
           <Image src={shot.src} alt="" width={2880} height={1800} sizes="500px" className="block h-auto w-full" />
         </div>
       )}
-      <div className="relative">
+      {/* text keeps its own column when there is a screenshot, so the two never overlap */}
+      <div className={`relative ${shot ? "md:max-w-[44%]" : ""}`}>
         <p className="text-sm font-semibold opacity-70">{p.period ?? p.kind}</p>
-        <h3 className="font-display mt-3 text-[clamp(2.25rem,4.5vw,3.5rem)] font-bold leading-[1]">{p.name}</h3>
-        <p className={`mt-4 text-[0.9375rem] leading-relaxed ${shot ? "max-w-xs" : "max-w-sm"}`}>{p.tagline}</p>
+        <h3 className="font-display mt-3 font-bold leading-[1]" style={{ fontSize: "clamp(1.75rem, min(4.2vw, 6.8vh), 3.25rem)" }}>
+          {p.name}
+        </h3>
+        <p className={`mt-4 line-clamp-4 text-[0.9375rem] leading-relaxed [@media(max-height:600px)]:hidden ${shot ? "" : "max-w-sm"}`}>{p.tagline}</p>
       </div>
       <div className="relative flex items-end justify-between gap-4">
-        <ul className="flex flex-wrap gap-1.5" aria-label="Tech stack">
+        <ul className={`flex flex-wrap gap-1.5 ${shot ? "md:max-w-[44%]" : ""}`} aria-label="Tech stack">
           {p.stack.slice(0, 3).map((t) => (
             <li key={t} className="rounded-full bg-ink/10 px-3 py-1 text-xs font-semibold">{t}</li>
           ))}
@@ -85,9 +88,9 @@ export function Showcase() {
       className="relative"
       style={pinned ? { height: `calc(100vh + ${dist}px)` } : { padding: "6rem 0" }}
     >
-      <div className={pinned ? "sticky top-0 flex h-screen flex-col justify-center overflow-hidden" : ""}>
+      <div className={pinned ? "sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-20" : ""}>
         <div className="container-page mb-8 flex items-end justify-between gap-6 sm:mb-10">
-          <h2 id="showcase-title" className="font-display text-[clamp(2.5rem,7vw,5.5rem)] font-bold leading-none">
+          <h2 id="showcase-title" className="font-display font-bold leading-none" style={{ fontSize: "clamp(2.25rem, min(7vw, 11vh), 5.5rem)" }}>
             Selected work
           </h2>
           {pinned && (
@@ -108,7 +111,7 @@ export function Showcase() {
               label="Work"
               color="lime"
               data-cursor="All"
-              className="font-display flex h-[62vh] max-h-[34rem] w-[min(70vw,22rem)] shrink-0 flex-col items-start justify-end rounded-[2rem] border border-line p-9 text-4xl font-bold transition-colors hover:bg-fg hover:text-bg"
+              className="font-display flex h-[70vh] min-h-[21rem] max-h-[36rem] w-[min(70vw,22rem)] shrink-0 flex-col items-start justify-end rounded-[2rem] border border-line p-9 text-4xl font-bold transition-colors hover:bg-fg hover:text-bg"
             >
               See all work
               <ArrowRightIcon size={36} className="mt-4" />
