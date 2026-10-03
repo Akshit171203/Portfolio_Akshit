@@ -66,7 +66,7 @@ function startOf(period?: string): number {
 }
 const newestFirst = (a: Project, b: Project) => startOf(b.period) - startOf(a.period);
 
-const AT_COROVER = new Set(["corover", "whatsapp-platform", "grse-dashboard", "builder-v2", "bharatgpt", "corover-bot-widget", "hdfc-translator", "kanha-ai"]);
+const AT_COROVER = new Set(["corover", "whatsapp-platform", "grse-dashboard", "builder-v2", "sra-console", "bharatgpt", "corover-bot-widget", "hdfc-translator", "kanha-ai"]);
 
 const PRINCIPLES = [
   { t: "Understand the system, not just the screen.", c: "lilac" },

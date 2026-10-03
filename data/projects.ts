@@ -694,6 +694,11 @@ export const projects: Project[] = [
     color: "lilac",
     screens: [
       {
+        src: "/projects/builder-v2/login.webp",
+        alt: "BuilderV2 sign-in page with an email and password form, Google and GitHub sign-in, and a preview of the platform on the left",
+        caption: "Sign in: the way into the platform",
+      },
+      {
         src: "/projects/builder-v2/agent-ui.webp",
         alt: "Website integration screen with Agent UI controls, an Ocean colour palette selected, and a live preview of the blue chat widget",
         caption: "Chat-widget designer: pick a palette and the live preview follows",
@@ -775,6 +780,101 @@ export const projects: Project[] = [
       {
         q: "Mark unfinished tools honestly",
         a: "Video generation, clip editing and 3D appear in the studio with a Soon Available badge instead of being hidden, so the roadmap is visible without pretending the tools work.",
+      },
+    ],
+  },
+  {
+    slug: "sra-console",
+    name: "SRA Console",
+    period: "Sep 2026",
+    kind: "Government web app",
+    role: "Frontend developer: three-language support, admin screens and ingestion forms",
+    tagline:
+      "An admin console for the Slum Rehabilitation Authority's document pipeline: upload, track and ask questions. I built its admin screens and Hindi and Marathi support.",
+    overview: [
+      "SRA Console is a React app where staff of the Slum Rehabilitation Authority, Brihanmumbai (Government of Maharashtra) upload departmental documents, follow each one through an automated pipeline, and then ask questions across them. The pipeline has 14 statuses, from discovered and queued through text extraction, OCR, metadata extraction and indexing to ready, plus a failed state at each stage. Five departments each upload their own document type: allotment letters, Annexure-II, Finance NOCs, Town Planning NOCs and CTSO NOCs.",
+      "A teammate wrote the first version, with the dashboard, documents, ingestion, reprocess and chat screens. I joined in September 2026 and made 8 of the branch's 13 commits. By git blame, ignoring one formatting-only commit, that is 3,188 of 6,561 lines, or about 2,000 of 5,380 if the translation files are left out.",
+    ],
+    points: [
+      "Added Hindi and Marathi next to English with react-i18next: about 350 strings per language, a language switcher that remembers the choice, and every screen moved off hard-coded text.",
+      "Built the Audit Log: filter by action (sign-in, failed sign-in, view, download, delete, public lookup), user and document, choose 20, 50 or 100 rows, and load more.",
+      "Built the Users screen for admins: create a user with a role (admin, operator or viewer) and a department, activate or deactivate accounts, and reset anyone's password.",
+      "Built Pipeline Health: queue counts (active, waiting, delayed, failed, paused) and recent jobs, each with a coloured status.",
+      "Added change-password and reset-password dialogs that enforce a 12-character password with upper case, lower case, a digit and a symbol, and added email and password checks to sign-in in all three languages.",
+      "Extended ingestion with the Town Planning and CTSO document types and an optional DCR sub-rule picker, 33(10) or 33(11), for those and for FC NOCs.",
+    ],
+    features: [
+      { title: "Document pipeline", body: "Every document shows where it is across 14 statuses, with one colour per status shared by pills, badges and bars." },
+      { title: "Uploads by department", body: "Each of the five departments uploads its own document type, with an optional DCR sub-rule for NOCs." },
+      { title: "Reprocess", body: "Send documents back through the pipeline, one at a time or in bulk by status and document type." },
+      { title: "Document Assistant", body: "A chat with quick-start options, replies that can open a document, and voice input." },
+      { title: "Users and roles", body: "Admins create accounts, assign a department and a role, switch accounts off and reset passwords." },
+      { title: "Audit log", body: "A filterable record of who signed in and who viewed, downloaded or deleted what." },
+      { title: "Pipeline health", body: "Queue counts and recent jobs, so a stuck pipeline is easy to spot." },
+      { title: "Three languages", body: "English, Hindi and Marathi across every screen, switchable at any time." },
+    ],
+    architecture: [
+      { title: "Admin-only routes", body: "Users, Audit Log and Pipeline Health sit behind a guard and are left out of the menu for anyone who is not an admin." },
+      { title: "Token sign-in", body: "A token is kept in the browser, and any 401 clears it and signs the person out everywhere in the app." },
+      { title: "A base path", body: "The app is served under a sub-path, and the router and the API client share it." },
+      { title: "Codes, not text", body: "The API returns codes such as INDEXING_FAILED, so statuses, document types, roles and departments each map to a translated label." },
+    ],
+    architectureNote:
+      "The first version of the app, the API client, the dashboard and the documents and chat screens were written by a teammate. I include them because everything I built plugs into them.",
+    stack: ["React 19", "TypeScript", "Vite", "Tailwind CSS", "React Router", "react-i18next", "Recharts"],
+    color: "pink",
+    screens: [
+      {
+        src: "/projects/sra-console/login.webp",
+        alt: "SRA Console sign-in page with the Slum Rehabilitation Authority logo, an email and password form, a language switcher and a theme toggle",
+        caption: "Sign in, with a language switcher and a theme toggle",
+      },
+    ],
+    screensNote:
+      "This is a government client's system, so only the sign-in page is shown, taken from the real frontend running locally. It has no data on it.",
+    stats: [
+      { to: 8, label: "commits by me, of 13 on the branch" },
+      { to: 3188, label: "lines in today's code written by me, of 6,561" },
+      { to: 3, label: "languages across every screen" },
+      { to: 348, label: "strings translated into each language" },
+    ],
+    statsNote: "Counted from git blame and the commit log. A formatting-only commit is ignored so it does not count as my work.",
+    flows: [
+      {
+        title: "A document's journey",
+        steps: ["Upload", "Validate the file", "Extract text", "OCR if needed", "Extract metadata", "Normalise", "Index", "Ready"],
+      },
+      {
+        title: "Opening an admin page",
+        steps: ["Sign in", "Token stored", "Fetch my profile", "Role known", "Admin pages unlock"],
+      },
+    ],
+    challenges: [
+      {
+        title: "An audit API with no paging",
+        body: "The endpoint takes a limit and nothing else. So Load more asks again with a bigger limit and replaces the list, and the screen guesses there is more only when a full page comes back.",
+      },
+      {
+        title: "Admins bounced on refresh",
+        body: "After a reload the app does not know the user's role until the profile call returns. The admin guard waits for that, so an admin who refreshes the Audit Log stays on it.",
+      },
+      {
+        title: "Translating a live app",
+        body: "Moving every screen to translation keys touched about twenty files in one change. The API sends codes rather than words, so statuses, document types, roles and departments each needed keys of their own.",
+      },
+    ],
+    decisions: [
+      {
+        q: "English as the fallback",
+        a: "If a string is missing in Hindi or Marathi, the screen shows the English text instead of a blank or a raw key, so a late translation never breaks a page.",
+      },
+      {
+        q: "Departments kept as a table in the client",
+        a: "There is no API that lists departments, and a department user needs their own document type available to upload. A complete table in the client avoids a screen that cannot be used.",
+      },
+      {
+        q: "Hide admin pages instead of showing errors",
+        a: "Someone without admin rights never sees the Users, Audit Log or Pipeline Health links, and a direct visit sends them home.",
       },
     ],
   },
