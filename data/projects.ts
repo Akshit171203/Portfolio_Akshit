@@ -1004,14 +1004,118 @@ export const projects: Project[] = [
     name: "BharatGPT Website",
     period: "Jun 2025 – Mar 2026",
     kind: "Corporate website",
-    tagline: "Corporate website where I was Lead Frontend Developer.",
-    points: [
-      "CMS migration and content-driven pages",
-      "Frontend architecture and reusable components",
+    role: "Lead frontend developer",
+    tagline:
+      "The public website for BharatGPT, CoRover's sovereign AI model. A single-page React site where every section is edited in a CMS.",
+    overview: [
+      "The site introduces BharatGPT in one long page: a hero, a strip of trusted brands, an introduction, a features section, a benefits grid, a video you can watch in your language, and a footer. Dark and light sections alternate down the page.",
+      "None of the words or pictures live in the code. Each section asks a Sanity CMS for its own content, and the CMS's editing studio is built into the site at /studio, so the team can change the copy, swap an image or add a video link without a developer.",
     ],
-    stack: ["React", "Next.js", "Sanity CMS"],
+    points: [
+      "Built each section as a React component that fetches its own content from Sanity with a small query: hero, introduction, capabilities, benefits, video and footer, plus site settings for the navigation, logos and the call to action.",
+      "Embedded the Sanity Studio at /studio and wrote a schema for every section, so editors can change text, images, links and even a video URL for each language.",
+      "Served different images to different screens: the CMS holds separate desktop and mobile versions of the hero, the logos and each feature card, and the layout switches at 1024 pixels.",
+      "Alternated dark and light themed sections down the page, and animated each one in as it scrolls into view with Framer Motion.",
+      "Built the video section: pick a language and the matching YouTube video plays through the YouTube player API, then the thumbnail returns when it ends.",
+      "Wrote migration scripts that moved the original content and images into Sanity, with the write token kept in an environment variable and never in the code.",
+    ],
+    features: [
+      { title: "Hero", body: "A tagline, a three-part headline, a short paragraph, a call to action and a product image, all editable." },
+      { title: "Trusted by", body: "A row of partner logos managed as a list in the CMS." },
+      { title: "Introduction", body: "A heading with a highlighted word, an image and long paragraphs that fold behind a Read More link." },
+      { title: "Capabilities", body: "Feature cards with their own images, some spanning the full width, on a light section." },
+      { title: "Benefits", body: "A grid of cards with an icon, a title and a description that react as you hover." },
+      { title: "Video in your language", body: "A language picker above a video player, with a different link for each language." },
+      { title: "Site settings", body: "The logo for each theme and screen size, the navigation links and the call-to-action button." },
+      { title: "Built-in studio", body: "The editing studio lives on the same site, so content changes need no code and no deploy." },
+    ],
+    architecture: [
+      { title: "A static front end", body: "A Create React App site with no server of its own. It builds to plain files and talks only to the CMS." },
+      { title: "Content as data", body: "One document type per section in Sanity, read through the CMS's fast read-only CDN." },
+      { title: "Studio on the same site", body: "Opening /studio swaps the page for the editing studio, so there is one project to host." },
+      { title: "Write access kept out", body: "The site only reads. Anything that writes, such as the migration scripts, needs a token that never ships with the site." },
+    ],
+    stack: ["React 19", "Create React App", "Sanity CMS", "Framer Motion", "CSS", "YouTube player API"],
     color: "mint",
-    role: "Lead Frontend Developer",
+    screens: [
+      {
+        src: "/projects/bharatgpt/demo-poster.jpg",
+        video: { mp4: "/projects/bharatgpt/demo.mp4", webm: "/projects/bharatgpt/demo.webm" },
+        badge: "Scroll-through",
+        alt: "Screen recording scrolling through the BharatGPT website: the hero, introduction, features, benefits and video sections",
+        caption: "A scroll through the whole page",
+      },
+      {
+        src: "/projects/bharatgpt/introduction.webp",
+        alt: "The introduction section with the heading Introducing BharatGPT, a logo image and long paragraphs about the sovereign AI model",
+        caption: "The introduction, on a dark section",
+      },
+      {
+        src: "/projects/bharatgpt/features.webp",
+        alt: "The light features section with the heading Everything you need to build the agents of the future and two feature cards",
+        caption: "Features, on a light section",
+      },
+      {
+        src: "/projects/bharatgpt/capability-cards.webp",
+        alt: "Two feature cards with phone mock-ups showing a chatbot type picker and a language picker",
+        caption: "Capability cards with their own images",
+      },
+      {
+        src: "/projects/bharatgpt/benefits.webp",
+        alt: "A dark grid of benefit cards: versatility, accessibility, accuracy and scalability",
+        caption: "The benefits grid",
+      },
+      {
+        src: "/projects/bharatgpt/video-section.webp",
+        alt: "The video section headed Ready for a Reveal with a language picker offering English and Hindi",
+        caption: "The video section, with a language picker",
+      },
+    ],
+    screensNote: "A public website, shown as it renders from its real code and its live CMS content.",
+    stats: [
+      { to: 7, label: "sections, each with its own content type in the CMS" },
+      { to: 1, label: "studio, built into the site at /studio" },
+      { to: 4200, suffix: "+", label: "lines of code and styles" },
+    ],
+    statsNote: "Counted from the source files I was given. The repository came without its history, so this is size, not a share of the work.",
+    flows: [
+      {
+        title: "Editing the site",
+        steps: ["Open /studio", "Change a section", "Publish", "The CDN serves it", "The page shows it"],
+      },
+      {
+        title: "Playing a video",
+        steps: ["Pick a language", "Find that language's link", "Press play", "YouTube player loads", "Back to the thumbnail"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Content that must not live in the code",
+        body: "Moving every word and image into the CMS meant a schema for each section and a small query in each component, plus scripts to move the existing content across without retyping it.",
+      },
+      {
+        title: "One page, two screen sizes",
+        body: "The same section needs a different image on a phone. The CMS stores both versions, and each component picks the right one when the window is wider or narrower than 1024 pixels.",
+      },
+      {
+        title: "A video for each language",
+        body: "Each language has its own link, so the player is built only when someone presses play. When the video ends, the page returns to the thumbnail.",
+      },
+    ],
+    decisions: [
+      {
+        q: "A CMS instead of a settings file",
+        a: "A settings file still needs a developer and a deploy for every edit. A CMS lets the team change the copy themselves, which matters for a site that keeps changing as the product does.",
+      },
+      {
+        q: "The studio on the same site",
+        a: "Putting the studio at /studio means one project and one place to deploy, instead of a second site to look after.",
+      },
+      {
+        q: "Alternate dark and light sections",
+        a: "A long page on one background gets tiring. Switching theme for the features section gives the page a clear rhythm and marks where a new idea starts.",
+      },
+    ],
   },
   {
     slug: "kanha-ai",
