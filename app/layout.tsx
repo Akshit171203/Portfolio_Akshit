@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: pageTitle,
   description: site.description,
-  authors: [{ name: site.name }],
+  authors: [{ name: site.fullName }],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -49,7 +49,7 @@ const sameAs = [site.github, site.linkedin].filter((u) => !isPlaceholder(u));
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: site.name,
+  name: site.fullName,
   jobTitle: site.role,
   worksFor: { "@type": "Organization", name: site.company },
   url: site.url,

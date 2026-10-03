@@ -1,4 +1,4 @@
-# Akshi — Portfolio
+# Akshit Gupta — Portfolio
 
 A multi-page portfolio (Home, Work, project pages, About, Contact) with a curtain transition between routes. Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Framer Motion (the only extra dependency).
 

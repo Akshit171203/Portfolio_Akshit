@@ -151,7 +151,7 @@ export function AboutPage() {
                 {photo ? (
                   <Image
                     src={photo}
-                    alt={`Portrait of ${site.name}`}
+                    alt={`Portrait of ${site.fullName}`}
                     fill
                     priority
                     sizes="(min-width: 1024px) 40vw, 90vw"

@@ -6,7 +6,9 @@
  * instead of a dead link. Replace the value and it becomes a real link.
  */
 
-export const MY_NAME = "Akshi";
+export const MY_NAME = "Akshit";
+/** Used where a full name belongs: metadata, structured data, copyright. */
+export const MY_FULL_NAME = "Akshit Gupta";
 export const MY_TITLE =
   "Software Engineer | Full Stack Developer | AI-Integrated Applications";
 export const MY_EMAIL = "[ADD EMAIL]";
@@ -34,6 +36,7 @@ export const PROJECT_URLS: Record<string, ProjectUrls> = {
 
 export const site = {
   name: MY_NAME,
+  fullName: MY_FULL_NAME,
   title: MY_TITLE,
   role: "Full Stack Web Developer",
   company: "CoRover",

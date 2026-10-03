@@ -12,10 +12,10 @@ export async function generateMetadata(props: PageProps<"/work/[slug]">): Promis
   const p = getProject(slug);
   if (!p) return {};
   return {
-    title: `${p.name} — Akshi`,
+    title: `${p.name} — Akshit`,
     description: p.tagline,
     alternates: { canonical: `/work/${slug}` },
-    openGraph: { title: `${p.name} — Akshi`, description: p.tagline, url: `/work/${slug}` },
+    openGraph: { title: `${p.name} — Akshit`, description: p.tagline, url: `/work/${slug}` },
   };
 }
 
