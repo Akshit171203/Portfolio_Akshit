@@ -14,7 +14,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 type FilterId = "all" | "products" | "sites";
 
 /** Which filter each project belongs to. Anything not listed counts as a product. */
-const SITES = new Set(["corover", "bharatgpt", "corover-bot-widget", "hdfc-translator"]);
+const SITES = new Set(["corover", "bharatgpt", "corover-bot-widget"]);
 const groupOf = (slug: string): FilterId => (SITES.has(slug) ? "sites" : "products");
 
 const FILTERS: { id: FilterId; label: string }[] = [

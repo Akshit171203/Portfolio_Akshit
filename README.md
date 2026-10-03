@@ -22,7 +22,6 @@ Anything still `[ADD …]` renders as a dashed chip, and its link is disabled in
 
 - `data/site.ts`: `MY_EMAIL`, `MY_GITHUB`, `MY_LINKEDIN`, `MY_LOCATION`, FollowUpHub URLs
 - `public/resume.pdf` — not included; add your PDF (or point `MY_RESUME` at a hosted URL)
-- HDFC Bank Translator: tech stack
 
 ## Motion
 

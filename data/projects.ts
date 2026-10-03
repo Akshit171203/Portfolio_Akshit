@@ -881,17 +881,109 @@ export const projects: Project[] = [
   {
     slug: "hdfc-translator",
     name: "HDFC Bank Translator",
-    period: "Feb – Apr 2026",
+    period: "Jan – Apr 2026",
     kind: "Enterprise web app",
-    tagline: "A localization and translation web application built for HDFC Bank.",
-    points: [
-      "Frontend engineering for an enterprise application",
-      "Localization workflow and user experience",
+    role: "Full-stack developer: translation service, sign-in and interface",
+    tagline:
+      "A document translator for HDFC Bank. Upload a PDF or an image and get it back in Hindi, Marathi, Tamil, Telugu or Malayalam with the layout kept.",
+    overview: [
+      "You upload a PDF or an image, choose the two languages, and watch the original and the translation side by side. For a PDF with real text, the service reads every text block with its position, font size and colour, translates the blocks with Gemini, and writes them back onto the original page in a matching Noto font. A scanned PDF has no text to read, so each page is rendered as an image and translated by Gemini's vision model. Images take the same route.",
+      "It is three parts: a FastAPI translation API, a Node sign-in service and a React front end. The repository has 8 commits across two clones, and all of them are mine.",
     ],
-    stack: [],
-    stackPlaceholder: true,
+    points: [
+      "Built the translation API in FastAPI: upload, translate, status and download endpoints, with each job running in the background and reporting a message and a percentage that the interface polls every second.",
+      "Made PDF translation keep the layout: text is extracted as blocks with their position, font, size and colour, translated a page at a time with numbered markers so every block lands back in the right place, then written into the original page.",
+      "Added a fallback for scanned PDFs and images: when a PDF has no text blocks, each page is rendered at double resolution and translated by the vision model, with prompt rules for tables, bullets, headings and image placeholders.",
+      "Supported six languages with the right fonts: Devanagari for Hindi and Marathi, and Tamil, Telugu and Malayalam, with English as a source or a target.",
+      "Built the sign-in service on Express 5 and Postgres: sign-up, sign-in, email verification, forgot and reset password, Google and GitHub sign-in, an admin-only route, and Redis rate limits on sign-up, sign-in and password reset.",
+      "Built the React interface: sign-in and sign-up pages, a side-by-side Original and Translated workspace with a live progress bar, and downloads as a PDF or as Markdown.",
+    ],
+    features: [
+      { title: "Layout-kept PDFs", body: "The translated PDF has the same pages, positions, sizes and colours as the original, only in the new language." },
+      { title: "Scanned documents", body: "Pages with no text are read as images by a vision model, so scans and photos translate too." },
+      { title: "Six languages", body: "English, Hindi, Marathi, Tamil, Telugu and Malayalam, each with a font that can draw it." },
+      { title: "Live progress", body: "A progress bar and a message such as 'Translating to Hindi' while the job runs." },
+      { title: "Side by side", body: "The original and the translation sit next to each other, so the two can be checked line by line." },
+      { title: "Export", body: "Download the translated PDF, or the Markdown when the source was an image or a scan." },
+      { title: "Sign-in", body: "Email and password, or Google or GitHub, with email verification and password reset." },
+      { title: "Rate limits", body: "Sign-up, sign-in, password-reset and resend-verification requests are limited per IP address over a five-minute window." },
+    ],
+    architecture: [
+      { title: "Three services", body: "A Python API for translation, a Node service for accounts and a React app, each started on its own port from one script." },
+      { title: "Jobs in memory", body: "Translation jobs are kept in the API's memory for now, which keeps the first version simple but means they do not survive a restart." },
+      { title: "Polling", body: "The interface asks for a job's status every second, which is enough to make the progress bar feel smooth." },
+      { title: "A font per language", body: "The font is chosen from the target language, because a PDF can only show a script if it embeds a font for it." },
+    ],
+    stack: ["React 19", "Vite", "Tailwind CSS", "Python", "FastAPI", "Gemini", "PyMuPDF", "WeasyPrint", "Express", "PostgreSQL", "Drizzle ORM", "Redis"],
     color: "sky",
-    role: "Frontend engineering",
+    screens: [
+      {
+        src: "/projects/hdfc-translator/translated.webp",
+        alt: "The translator showing an English sample document on the left and its Hindi translation on the right, with Download Markdown and Export PDF buttons",
+        caption: "A finished translation next to its original",
+      },
+      {
+        src: "/projects/hdfc-translator/uploaded.webp",
+        alt: "The document settings panel with a PDF uploaded, English to Hindi selected, and the original shown on the left",
+        caption: "Upload a file and pick the languages",
+      },
+      {
+        src: "/projects/hdfc-translator/progress.webp",
+        alt: "The translation in progress, with a progress bar at 62 percent and a message about translating page 1",
+        caption: "Live progress while the job runs",
+      },
+      {
+        src: "/projects/hdfc-translator/login.webp",
+        alt: "The sign-in page with CoRover, BharatGPT and HDFC Bank logos, an email and password form, and two feature cards",
+        caption: "Sign in",
+      },
+    ],
+    screensNote: "This is a client's tool, so these are stills only. They show a made-up sample document, not real bank content, and come from the real frontend running against a mock API.",
+    stats: [
+      { to: 8, label: "commits in the repository, all mine" },
+      { to: 3, label: "services: translation, sign-in and the interface" },
+      { to: 6, label: "languages with matching fonts" },
+      { to: 3000, suffix: "+", label: "lines of application code across the three services" },
+    ],
+    statsNote: "Counted from the commit log and the source files, leaving out tests, lock files and styles.",
+    flows: [
+      {
+        title: "Translating a PDF",
+        steps: ["Upload", "Read text blocks", "Translate page by page", "Pick the font", "Rebuild the PDF", "Download"],
+      },
+      {
+        title: "Translating a scan",
+        steps: ["Upload", "No text found", "Render each page", "Vision translation", "Markdown preview"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Translating words without moving them",
+        body: "Sending a whole page to a model would lose where each line sat. So every block is numbered, sent with its page for context, and the reply must keep the numbers so each translation goes back to its own box.",
+      },
+      {
+        title: "A PDF that is really a picture",
+        body: "A scanned PDF has no text to extract, which would give an empty result. The service notices that no text blocks came back and switches to translating each page as an image.",
+      },
+      {
+        title: "Scripts that need their own fonts",
+        body: "A PDF can only show Hindi, Tamil or Malayalam if a font for that script is embedded. The service picks a Noto font from the target language and falls back to Devanagari.",
+      },
+    ],
+    decisions: [
+      {
+        q: "Read the text first, use vision as a fallback",
+        a: "Reading real text keeps each block's original position, size and colour exactly. The vision route returns Markdown, which has no exact positions, so it is used only when there is no text to read.",
+      },
+      {
+        q: "Poll for progress instead of sockets",
+        a: "One request a second is simple, and for a job that runs for seconds to a minute it keeps the progress bar moving smoothly.",
+      },
+      {
+        q: "Keep accounts in their own service",
+        a: "Sign-in has its own database, cache and rate limits, so the translation API can stay focused on documents.",
+      },
+    ],
   },
   {
     slug: "corover-bot-widget",
