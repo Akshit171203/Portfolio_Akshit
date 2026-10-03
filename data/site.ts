@@ -16,7 +16,7 @@ export const MY_LINKEDIN = "[ADD LINKEDIN URL]";
 export const MY_RESUME = "/resume.pdf";
 export const MY_LOCATION = "[ADD LOCATION]";
 /** Path under /public or a remote URL. Leave null to hide the portrait. */
-export const MY_PROFILE_IMAGE: string | null = null;
+export const MY_PROFILE_IMAGE: string | null = "/profile.jpg";
 
 export type ProjectUrls = { github?: string; live?: string };
 
