@@ -947,13 +947,18 @@ export const projects: Project[] = [
       },
       {
         src: "/projects/pdf-translator/login.webp",
-        alt: "The sign-in page: a dark panel with a sample English page turning into its Hindi translation, and a Welcome back form",
+        alt: "The sign-in page: a dark panel with a mock of an English page and its Hindi translation, beside a Log in to your account form",
         caption: "Sign in",
       },
       {
         src: "/projects/pdf-translator/signup.webp",
         alt: "The sign-up page with name, email and password fields beside the same dark showcase panel",
         caption: "Create an account",
+      },
+      {
+        src: "/projects/pdf-translator/translated-light.webp",
+        alt: "The finished translation in the light theme, with the original on the left and the Hindi translation on the right",
+        caption: "The same screen in the light theme",
       },
     ],
     screensNote: "These are stills only. They show a made-up sample document and come from the front end running against a mock API.",
