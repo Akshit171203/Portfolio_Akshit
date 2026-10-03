@@ -26,7 +26,15 @@ export type Project = {
   /** Design decisions, as short "what and why" pairs. */
   decisions?: { q: string; a: string }[];
   /** Product screenshots (2880x1800). The first one is the hero image. */
-  screens?: { src: string; alt: string; caption: string }[];
+  screens?: {
+    /** Image path, or the poster frame when `video` is set. */
+    src: string;
+    alt: string;
+    caption: string;
+    video?: { mp4: string; webm: string };
+    /** Small pill shown over the frame, e.g. "Live demo". */
+    badge?: string;
+  }[];
   /** Where the screenshots come from. */
   screensNote?: string;
   /** A short intro, shown first on the project page. */
@@ -80,6 +88,13 @@ export const projects: Project[] = [
     statsNote: "Counted from the repository.",
     screens: [
       {
+        src: "/projects/followuphub/demo-poster.jpg",
+        video: { mp4: "/projects/followuphub/demo.mp4", webm: "/projects/followuphub/demo.webm" },
+        badge: "Live demo",
+        alt: "Screen recording of FollowUpHub: AI Quick Add turns a sentence into a follow-up, an AI draft streams in word by word, and an escalation notification arrives in real time",
+        caption: "Live demo: AI Quick Add, a streamed AI draft, and a real-time escalation notification",
+      },
+      {
         src: "/projects/followuphub/dashboard.webp",
         alt: "FollowUpHub overview dashboard with pipeline counts, urgency breakdown and a six-month bar chart",
         caption: "Overview: pipeline, urgency and six months of activity",
@@ -110,7 +125,7 @@ export const projects: Project[] = [
         caption: "Notifications grouped per follow-up, with unread counts",
       },
     ],
-    screensNote: "Screens are the real frontend running against sample data.",
+    screensNote: "The demo and screenshots are the real frontend running against sample data.",
     flows: [
       {
         title: "Jira to notifications",
@@ -210,6 +225,13 @@ export const projects: Project[] = [
       "The first four are counted from the repository (March to September 2026). The last two are Cloudflare-observed platform metrics: the scale the site runs at, not traffic I generated.",
     screens: [
       {
+        src: "/projects/corover/demo-poster.jpg",
+        video: { mp4: "/projects/corover/demo.mp4", webm: "/projects/corover/demo.webm" },
+        badge: "Live site",
+        alt: "Screen recording scrolling through the CoRover.ai homepage: hero, platform, industries, integrations and capabilities",
+        caption: "Scroll-through of the live homepage",
+      },
+      {
         src: "/projects/corover/home.webp",
         alt: "CoRover.ai homepage hero: Enterprise-grade WhatsApp Agents to accelerate and grow your business",
         caption: "Homepage hero",
@@ -240,7 +262,7 @@ export const projects: Project[] = [
         caption: "Platform page with integrations hero",
       },
     ],
-    screensNote: "Screenshots of the live site at corover.ai.",
+    screensNote: "Recording and screenshots of the live site at corover.ai.",
     flows: [
       {
         title: "Publish flow",
