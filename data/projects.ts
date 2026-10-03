@@ -41,6 +41,9 @@ export type Project = {
   overview?: string[];
   /** "What's inside": a grid of notable parts of the build. */
   features?: { title: string; body: string }[];
+  /** How the system works underneath, when the author did not write that layer. Shown with an honest attribution note. */
+  architecture?: { title: string; body: string }[];
+  architectureNote?: string;
 };
 
 export const projects: Project[] = [
@@ -170,6 +173,180 @@ export const projects: Project[] = [
       {
         q: "Reconcile Jira instead of trusting it",
         a: "Jira simply stops returning completed tickets. After each sync, any open Jira follow-up that wasn't in the latest response is closed locally and logged to the timeline.",
+      },
+    ],
+  },
+  {
+    slug: "whatsapp-platform",
+    name: "WhatsApp Platform",
+    period: "Sep 2026 – Present",
+    kind: "Multi-tenant SaaS",
+    role: "Frontend engineer: tenant dashboard and superadmin console",
+    tagline: "A multi-tenant WhatsApp Business Solution Provider platform. I work on its two frontends: the tenant dashboard and the superadmin console.",
+    overview: [
+      "A production platform that lets businesses run WhatsApp at scale: Cloud API integration, a visual chatbot flow builder, a live agent inbox, broadcast campaigns, template management, analytics, forms, calling and a public API. Each business is a tenant with its own workspace, team roles and API keys, and resellers and platform operators sit above them.",
+      "It is a team product. I joined in September 2026 and work on both frontends: I wrote 48 of the repository's 111 commits, about half of the dashboard's source and roughly two thirds of the superadmin's components. The API, database and workers were written by a teammate, so the section on how the platform works describes what the UIs are built on, not work I authored.",
+    ],
+    points: [
+      "Rebuilt the dashboard's UI foundation: custom components migrated to shadcn/ui and Radix primitives, hardcoded colours replaced with design tokens and CSS variables, and a persisted dark mode.",
+      "Upgraded both apps to Next.js 15.5 and React 19 to close critical CVEs, tightened the security config, and moved to strict TypeScript with zero-warning linting.",
+      "Broke up the heaviest screens (inbox, flows, broadcasts, contacts, and a 1,209-line superadmin file) into focused components, and redesigned broadcasts with a searchable table and stats.",
+      "Made the app accessible and responsive: a dev-only axe auditor, jsx-a11y linting, dark-mode contrast fixes, a mobile sidebar drawer and bottom navigation.",
+      "Replaced infinite spinners with request timeouts and a retry screen, and fixed session and auth race conditions.",
+      "Built the WhatsApp calling settings and workspace configuration pages, integrated the forms builder, and added the auth showcase with a theme switch.",
+    ],
+    features: [
+      { title: "Live agent inbox", body: "Real-time conversations over Socket.IO, with assignment, notes, status changes and handoff from a bot." },
+      { title: "Visual flow builder", body: "Chatbot flows drawn on a React Flow canvas: messages, questions, conditions, API calls, templates and agent handoff." },
+      { title: "Broadcasts and scheduling", body: "Campaigns with recipients, duplication, CSV export and scheduled sends." },
+      { title: "Contacts, segments and leads", body: "Import with preview, segmentation and a leads view." },
+      { title: "Analytics", body: "Summary cards, time series with period comparison, and top questions." },
+      { title: "Forms, knowledge and AI", body: "A forms builder with responses, knowledge sources for AI agents, and AI-assisted flow generation." },
+      { title: "Calling", body: "WhatsApp calling settings, call permissions and an in-browser WebRTC call UI." },
+      { title: "Developers", body: "API keys, webhooks and API integration settings." },
+    ],
+    architecture: [
+      {
+        title: "Tenant resolution",
+        body: "The tenant comes from the signed JWT's tid claim. A header or subdomain is only a fallback before a token exists, because a header can be spoofed and a signature cannot. Suspended tenants get a 403, tenant and membership lookups are cached in Redis (5 and 2 minutes), and membership is checked separately, so a valid token for a non-member is still rejected.",
+      },
+      {
+        title: "Sessions and tokens",
+        body: "Tokens carry the user, tenant, role, session id and the partner and platform-admin claims. The session id ties a token to a Session row, which is how listing and revoking devices works. Expired and invalid tokens return different error codes, so the frontend knows when to refresh.",
+      },
+      {
+        title: "Two kinds of RBAC",
+        body: "requireRole is hierarchical, so an Admin passes an Agent check. requirePermission is finer: a member's effective capabilities are the role defaults plus per-user overrides, and Owner always passes. Coarse roles are simple to reason about; capabilities cover the exceptions without inventing new roles.",
+      },
+      {
+        title: "Three tiers above the tenant",
+        body: "Tenant user, then partner (a reseller), then platform admin. One gate admits a partner or a platform admin, another admits only the platform admin. That is why the superadmin console has its own auth context and token keys, separate from the dashboard.",
+      },
+      {
+        title: "API keys",
+        body: "Machine access to the public API uses wsa_ keys. Only a hash is stored, never the raw key. Keys have scopes, an expiry and revocation, and are bound to a WhatsApp number. The middleware sets the tenant, so downstream code treats the request like a normal tenant request.",
+      },
+      {
+        title: "Rate limiting",
+        body: "300 requests per 15 minutes globally and 20 per 15 minutes on auth endpoints, to slow brute force. Counters live in Redis, so the limits hold across several API instances.",
+      },
+      {
+        title: "Webhook authentication",
+        body: "Meta signs each payload with HMAC-SHA256. The check uses a constant-time comparison and verifies the signature before trusting the phone number id to pick the tenant, which means the route needs the raw body and is mounted before the JSON parser.",
+      },
+      {
+        title: "Audit log and errors",
+        body: "Mutating platform actions write an audit record, and a failed audit write never blocks the operator's action. Errors carry machine-readable codes, and validation and database errors are mapped to consistent, readable responses.",
+      },
+    ],
+    architectureNote:
+      "The API, database and workers were written by a teammate. I include this because both frontends are shaped by it, and I work with it every day.",
+    stack: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Radix UI",
+      "TanStack Query",
+      "Zustand",
+      "React Flow",
+      "Socket.IO",
+      "Recharts",
+      "Vitest",
+    ],
+    color: "mint",
+    screens: [
+      {
+        src: "/projects/whatsapp-platform/overview.webp",
+        alt: "WhatsApp Platform dashboard overview with conversation, message, delivery and read-rate cards, a message volume chart and a Broadcast Studio panel",
+        caption: "Tenant dashboard: overview with KPIs, message volume and active flows",
+      },
+      {
+        src: "/projects/whatsapp-platform/inbox.webp",
+        alt: "Shared team inbox with a conversation list, a chat thread showing bot and agent replies, and a contact side panel",
+        caption: "Shared inbox: bot hand-off, agent replies and the contact panel",
+      },
+      {
+        src: "/projects/whatsapp-platform/flow-builder.webp",
+        alt: "Visual flow builder with a node palette and a canvas showing a branching order-status bot",
+        caption: "Flow builder: drag-and-drop WhatsApp bots on a React Flow canvas",
+      },
+      {
+        src: "/projects/whatsapp-platform/broadcasts.webp",
+        alt: "Broadcasts screen with campaign stats, status tabs and a searchable campaigns table",
+        caption: "Broadcasts: campaign stats, status tabs and a searchable table",
+      },
+      {
+        src: "/projects/whatsapp-platform/analytics.webp",
+        alt: "Analytics screen with sent, delivered, new conversation and bot session cards, a delivery funnel and an AI insights panel",
+        caption: "Analytics: delivery funnel and conversation health",
+      },
+      {
+        src: "/projects/whatsapp-platform/admin-dashboard.webp",
+        alt: "Superadmin partner dashboard showing central balance and WhatsApp spend by message category",
+        caption: "Superadmin: partner balance and spend by message category",
+      },
+      {
+        src: "/projects/whatsapp-platform/admin-platform.webp",
+        alt: "Superadmin platform overview with partners, tenants, live WhatsApp accounts, queues, health and kill switches",
+        caption: "Superadmin: platform-wide overview, queues, health and kill switches",
+      },
+      {
+        src: "/projects/whatsapp-platform/admin-health.webp",
+        alt: "Superadmin platform health page listing infrastructure and worker probes with pass and warning states",
+        caption: "Superadmin: platform health probes",
+      },
+    ],
+    screensNote:
+      "These are the real dashboard and superadmin frontends running locally against a mock API with made-up sample data. No customer data is shown.",
+    stats: [
+      { to: 48, label: "commits by me, of 111 in the repo" },
+      { to: 40, label: "dashboard pages" },
+      { to: 16, label: "superadmin pages" },
+      { to: 130, suffix: "+", label: "API endpoints the dashboard consumes" },
+    ],
+    statsNote: "Counted from the repository. Page and endpoint counts cover both frontends, not only the parts I wrote.",
+    flows: [
+      {
+        title: "A tenant request",
+        steps: ["Dashboard", "Express API", "JWT and tenant (Redis cache)", "RBAC", "PostgreSQL"],
+      },
+      {
+        title: "An inbound WhatsApp message",
+        steps: ["Meta webhook", "Signature check", "Tenant lookup", "Message handler", "Socket.IO room", "Agent inbox"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Spinners that never ended",
+        body: "API calls had no timeout, so a slow or unreachable server looked like a hung page. I added a 20-second timeout and a retry screen, and made the auth hook tell \"the server can't be reached\" apart from \"the server rejected you\".",
+      },
+      {
+        title: "A network blip logging everyone out",
+        body: "Any failed auth check was treated as a lost session. Now only a 401 or 403 ends the session, and sign-out does a full page reload so one user's cached data can never appear for the next person on the same tab.",
+      },
+      {
+        title: "The mobile drawer inherited desktop state",
+        body: "On phones the sidebar drawer picked up the desktop \"collapsed to icons\" state and rendered half-empty. I separated the two states and restored the mobile bottom navigation.",
+      },
+      {
+        title: "Dark mode with hardcoded colours",
+        body: "Colours were scattered through components, so dark mode produced unreadable combinations. I moved them to design tokens and CSS variables, then fixed the remaining contrast findings.",
+      },
+    ],
+    decisions: [
+      {
+        q: "shadcn/ui on Radix, not custom components",
+        a: "Radix handles focus, keyboard and ARIA behaviour, and shadcn keeps the code in the repo to adapt. It replaced a pile of hand-rolled dialogs and form controls that had rendering bugs.",
+      },
+      {
+        q: "Zustand for client state, TanStack Query for server state",
+        a: "Server data stays in the query cache, and small client concerns such as theme, language and the active WhatsApp number moved from React contexts into stores, which avoids re-rendering whole trees.",
+      },
+      {
+        q: "Design tokens before dark mode",
+        a: "Theming only works if colours come from one place. Tokens first made dark mode, contrast fixes and the theme switch a small change instead of a rewrite.",
       },
     ],
   },

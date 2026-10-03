@@ -28,7 +28,7 @@ function Reveal({ children, delay = 0, className }: { children: React.ReactNode;
 const stats = [
   { to: 1.5, decimals: 1, suffix: "+", label: "years of professional experience", color: "lime" },
   { to: 100, decimals: 0, suffix: "", label: "commits on the CoRover.ai website (of 107)", color: "sky" },
-  { to: 7, decimals: 0, suffix: "", label: "projects across web, AI and internal tools", color: "pink" },
+  { to: projects.length, decimals: 0, suffix: "", label: "projects across web, AI and internal tools", color: "pink" },
 ];
 
 const principles = [
@@ -38,7 +38,7 @@ const principles = [
 ];
 
 export function AboutPage() {
-  const atCorover = projects.filter((p) => ["corover", "builder-v2", "bharatgpt", "corover-bot-widget", "hdfc-translator", "kanha-ai"].includes(p.slug));
+  const atCorover = projects.filter((p) => ["corover", "whatsapp-platform", "builder-v2", "bharatgpt", "corover-bot-widget", "hdfc-translator", "kanha-ai"].includes(p.slug));
 
   return (
     <div className="pt-36 sm:pt-44">

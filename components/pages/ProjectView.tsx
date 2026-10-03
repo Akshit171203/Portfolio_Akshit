@@ -123,6 +123,7 @@ export function ProjectView({ project: p, next }: { project: Project; next: Proj
     { id: "highlights", label: "Highlights" },
     p.features && { id: "inside", label: "Inside" },
     p.stats && { id: "numbers", label: "Numbers" },
+    p.architecture && { id: "platform", label: "Platform" },
     p.flows && { id: "flows", label: "Flows" },
     p.challenges && { id: "problems", label: "Problems" },
     p.decisions && { id: "decisions", label: "Decisions" },
@@ -255,6 +256,29 @@ export function ProjectView({ project: p, next }: { project: Project; next: Proj
             ))}
           </dl>
           {p.statsNote && <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted">{p.statsNote}</p>}
+        </Chapter>
+      )}
+
+      {p.architecture && (
+        <Chapter id="platform" n={num("platform")} title="How the platform works" color={color}>
+          {p.architectureNote && (
+            <Reveal className="mb-10">
+              <p className="rounded-2xl border border-line px-5 py-4 text-sm leading-relaxed text-muted">
+                <span className="font-semibold text-fg">A note on attribution. </span>
+                {p.architectureNote}
+              </p>
+            </Reveal>
+          )}
+          <div className="grid grid-cols-1 border-l border-t border-line sm:grid-cols-2">
+            {p.architecture.map((a, i) => (
+              <Reveal key={a.title} delay={(i % 2) * 0.06}>
+                <div className="h-full border-b border-r border-line p-7 transition-colors hover:bg-fg/[0.03]">
+                  <h3 className="font-display text-xl font-bold leading-tight">{a.title}</h3>
+                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{a.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </Chapter>
       )}
 
