@@ -14,13 +14,13 @@ const pad = (n: number) => String(n).padStart(2, "0");
 type FilterId = "all" | "products" | "sites";
 
 /** Which filter each project belongs to. Anything not listed counts as a product. */
-const SITES = new Set(["corover", "bharatgpt", "corover-bot-widget"]);
+const SITES = new Set(["corover", "bharatgpt"]);
 const groupOf = (slug: string): FilterId => (SITES.has(slug) ? "sites" : "products");
 
 const FILTERS: { id: FilterId; label: string }[] = [
   { id: "all", label: "All work" },
   { id: "products", label: "Products" },
-  { id: "sites", label: "Sites & widgets" },
+  { id: "sites", label: "Websites" },
 ];
 
 /** One project as a slim row: numbers on the left, the story in the middle, a thumbnail on the right. */

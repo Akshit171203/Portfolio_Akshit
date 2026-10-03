@@ -1009,20 +1009,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "corover-bot-widget",
-    name: "CoRover Bot Widget",
-    period: "Dec 2025 – Feb 2026",
-    kind: "Embeddable widget",
-    tagline: "A React bot widget with SSE audio streaming and text-to-speech.",
-    points: [
-      "Interactive conversational UI with a real-time audio experience",
-      "The hard part: streaming and handling asynchronous audio in the browser",
-    ],
-    stack: ["React", "SSE", "Text-to-speech"],
-    color: "butter",
-    flows: [{ title: "Audio data path (conceptual)", steps: ["Bot reply", "Text-to-speech", "SSE stream", "Audio chunks", "Playback"] }],
-  },
-  {
     slug: "bharatgpt",
     name: "BharatGPT Website",
     period: "Jun 2025 – Mar 2026",
