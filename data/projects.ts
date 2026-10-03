@@ -258,6 +258,13 @@ export const projects: Project[] = [
     color: "mint",
     screens: [
       {
+        src: "/projects/whatsapp-platform/demo-poster.jpg",
+        video: { mp4: "/projects/whatsapp-platform/demo.mp4", webm: "/projects/whatsapp-platform/demo.webm" },
+        badge: "Walkthrough",
+        alt: "Screen recording of the WhatsApp Platform: dashboard overview, a shared inbox conversation, the flow builder, broadcasts, analytics and the superadmin console",
+        caption: "Walkthrough: overview, inbox, flow builder, broadcasts, analytics and the superadmin console",
+      },
+      {
         src: "/projects/whatsapp-platform/overview.webp",
         alt: "WhatsApp Platform dashboard overview with conversation, message, delivery and read-rate cards, a message volume chart and a Broadcast Studio panel",
         caption: "Tenant dashboard: overview with KPIs, message volume and active flows",
