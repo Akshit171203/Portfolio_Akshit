@@ -104,7 +104,7 @@ export function ProjectHero({ project: p }: { project: Project }) {
               )}
             </motion.p>
 
-            <h1 id="project-title" className="font-display text-[clamp(3.25rem,12.5vw,11.5rem)] font-extrabold leading-[0.88] tracking-[-0.045em]">
+            <h1 id="project-title" className="font-display text-[clamp(2.75rem,11vw,10rem)] font-extrabold leading-[0.88] tracking-[-0.045em]">
               <SplitText text={p.name} />
             </h1>
 

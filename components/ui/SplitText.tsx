@@ -21,7 +21,7 @@ export function SplitText({ text, as: Tag = "span", className, delay = 0, inView
   return (
     <Tag className={className} aria-label={text}>
       {text.split(" ").map((word, wi) => (
-        <span key={wi} aria-hidden className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom">
+        <span key={wi} aria-hidden className="inline-block overflow-hidden whitespace-nowrap pb-[0.14em] -mb-[0.14em] align-bottom">
           {[...word].map((ch, ci) => (
             <motion.span
               key={ci}

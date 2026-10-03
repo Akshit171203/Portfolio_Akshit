@@ -238,12 +238,16 @@ export function ProjectView({ project: p, next }: { project: Project; next: Proj
 
       {p.stats && (
         <Chapter id="numbers" n={num("numbers")} title="Numbers" color={color}>
-          <dl className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3">
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3">
             {p.stats.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.05}>
-                <div className="flex flex-col-reverse gap-3 border-t border-line pt-5">
+              <Reveal key={s.label} delay={i * 0.05} className="min-w-0">
+                {/* Each cell is its own size container, so the numeral scales to the width it is given */}
+                <div className="flex flex-col-reverse gap-3 border-t border-line pt-5" style={{ containerType: "inline-size" }}>
                   <dt className="text-sm leading-snug text-muted">{s.label}</dt>
-                  <dd className="font-display text-6xl font-extrabold leading-none tracking-tight sm:text-7xl" style={{ color: `var(--${color})` }}>
+                  <dd
+                    className="font-display font-extrabold leading-none tracking-tight"
+                    style={{ color: `var(--${color})`, fontSize: "clamp(2.25rem, 21cqw, 4.5rem)" }}
+                  >
                     <CountUp to={s.to} decimals={s.decimals} suffix={s.suffix} />
                   </dd>
                 </div>
