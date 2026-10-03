@@ -166,7 +166,8 @@ export function ProjectView({ project: p, next }: { project: Project; next: Proj
   const urls = getProjectUrls(p.slug);
   const color = p.color;
   const index = projects.findIndex((x) => x.slug === p.slug);
-  const shots = (p.screens ?? []).filter((s) => !s.video);
+  // the first screen is the hero (video or image), so the showreel starts at the second
+  const shots = (p.screens ?? []).slice(1).filter((s) => !s.video);
   const lead = p.overview?.[0] ?? p.tagline;
   const rest = p.overview?.slice(1) ?? [];
 

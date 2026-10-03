@@ -655,15 +655,128 @@ export const projects: Project[] = [
   {
     slug: "builder-v2",
     name: "BuilderV2",
+    period: "Jul 2025 – Present",
     kind: "Internal SaaS",
-    tagline: "An internal agentic AI SaaS platform. I built the frontend and its UI architecture.",
-    points: [
-      "Complex application UI on a reusable component system",
-      "State management for agent-oriented product interfaces",
+    role: "Frontend developer: Creative Studio, website chat-widget designer and agent UI",
+    tagline:
+      "An agentic AI platform for building and deploying conversational agents. I work on its frontend and built its Creative Studio and website chat-widget designer.",
+    overview: [
+      "BuilderV2 is where a team builds an AI agent: pick the model and voice, write the prompt, add knowledge, tools and intents, test it, and embed it on a website. Around the agents sit chatflows, executions, variables, a human review inbox, telephony, voice cloning, API docs and a fine-tuning studio.",
+      "It is a big team codebase with several contributors and about 2,200 commits. I joined in July 2025 and have about 390 of them, which by git blame is about 34,600 of 281,500 lines. The workflow editor and the fine-tuning studio are large sub-apps written mostly by others. Leave those out and my share is about 32,000 of 122,700 lines, roughly a quarter.",
     ],
-    stack: ["React", "TypeScript", "Vite", "Zustand", "Radix UI"],
+    points: [
+      "Built the Creative Studio from scratch, about 6,700 lines, nearly all of them mine: a tool hub with an image generator, a voice generator, a video enhancer and Spaces, an infinite canvas for planning work.",
+      "Built the video enhancer's interface: resumable uploads of large files, job progress over a socket with a polling fallback, a review step before anything is published, and YouTube publishing. The analysis and FFmpeg work happens on the backend.",
+      "Built the website chat-widget designer: avatar cropping, colour palettes and per-colour controls, a gradient builder, carousel, image, video and YouTube message settings, a live preview of the widget, and the embed script to copy.",
+      "Built the Classic NLP screen: intent categories, intents, training utterances, a confidence threshold and a GenAI fallback switch, with an intent creation sheet and category editing.",
+      "Built the Media Hub drawer: upload images or videos or paste a YouTube link, review what the AI tagged, and manage a library of media for the agent.",
+      "Shaped the shared UI from the first weeks: consistent layouts across Tools, Chatflows, Agentflows and Variables, mobile and responsive fixes, toasts, confirmation dialogs, loading states, and the sidebar.",
+    ],
+    features: [
+      { title: "Chat-widget designer", body: "Style the website widget with palettes, advanced colours, bubbles and message types, and watch a live preview change as you edit." },
+      { title: "Creative Studio", body: "A hub for generating images and voice, enhancing video and planning on a canvas, with pinned tools and projects." },
+      { title: "Video enhancer", body: "Upload a video, review the plan the AI proposes, then publish to YouTube. Progress arrives live over a socket." },
+      { title: "Spaces", body: "An infinite canvas built on Excalidraw, with templates for flowcharts, mind maps, kanban boards and wireframes, saved per space in the browser." },
+      { title: "Image and voice", body: "An image generator with reference slots, aspect ratio and batch count, and a voice generator with a choice of voices." },
+      { title: "Classic NLP", body: "Intent-based answers for questions that must be exact, organised into categories and trained from example phrases." },
+      { title: "Media Hub", body: "Upload media or a YouTube link for an agent to use in answers, with AI-generated tags and a searchable library." },
+      { title: "Agent settings", body: "Pages for the agent, LLMs, voice, data source, security, integrations and analytics, plus usage, support and partners screens." },
+    ],
+    architecture: [
+      { title: "Agents are personas", body: "The agent list and details come from a personas API and are reshaped on the client into one agent model the whole UI shares." },
+      { title: "Cookie-based sign-in", body: "The server sets HttpOnly cookies, so the app asks for the profile on load. A 200 means signed in, and route guards read the result from the store." },
+      { title: "Two backends", body: "Most calls go through a proxy under the workflow API, while the agentic builder service has its own base URL and is used by Creative Studio and parts of Classic NLP." },
+      { title: "Sub-apps in their own folders", body: "The workflow editor and the fine-tuning studio live in separate source folders, and the platform mounts them under its own sidebar." },
+    ],
+    architectureNote:
+      "The sign-in flow, the API layer, the workflow editor and the fine-tuning studio were mostly written by teammates. I include them because everything I built runs inside them.",
+    stack: ["React 19", "TypeScript", "Vite", "Tailwind CSS", "Radix UI", "Zustand", "Excalidraw", "Socket.IO", "React Flow", "Framer Motion", "Axios"],
     color: "lilac",
-    role: "Frontend engineering and UI architecture",
+    screens: [
+      {
+        src: "/projects/builder-v2/agent-ui.webp",
+        alt: "Website integration screen with Agent UI controls, an Ocean colour palette selected, and a live preview of the blue chat widget",
+        caption: "Chat-widget designer: pick a palette and the live preview follows",
+      },
+      {
+        src: "/projects/builder-v2/website-configurator.webp",
+        ratio: 1.22,
+        alt: "The full widget designer with the Advanced Theme panel open, showing six colour fields beside the live chat preview",
+        caption: "Advanced theme: six colour fields drive the widget",
+      },
+      {
+        src: "/projects/builder-v2/classic-nlp.webp",
+        alt: "Classic NLP screen with intent categories and an expanded Orders category listing its intents",
+        caption: "Classic NLP: categories, intents and training phrases",
+      },
+      {
+        src: "/projects/builder-v2/creative-studio.webp",
+        alt: "Creative Studio home with tool cards for image, video, video enhancer, audio, spaces and 3D, plus projects and pinned tools",
+        caption: "Creative Studio home: tools, projects and spaces",
+      },
+      {
+        src: "/projects/builder-v2/image-generator.webp",
+        alt: "Image generator workspace with model, reference slots, prompt box, aspect ratio and count controls",
+        caption: "Image generator: references, prompt, aspect ratio and count",
+      },
+      {
+        src: "/projects/builder-v2/video-enhancer.webp",
+        alt: "Video enhancer with a drag-and-drop upload area, a YouTube connection card and a four-step explanation",
+        caption: "Video enhancer: upload, enhance, draft and review before publishing",
+      },
+      {
+        src: "/projects/builder-v2/spaces.webp",
+        alt: "My Spaces screen listing three canvases and a new space card",
+        caption: "Spaces: your canvases in one place",
+      },
+      {
+        src: "/projects/builder-v2/space-templates.webp",
+        alt: "Explore Templates screen with flowchart, mind map, kanban board, user journey, wireframe and sprint retro templates",
+        caption: "Space templates: start from a ready-made layout",
+      },
+      {
+        src: "/projects/builder-v2/agents.webp",
+        alt: "Agents list with names, purposes, status and last-updated times",
+        caption: "Agents: the list every workflow starts from",
+      },
+    ],
+    screensNote:
+      "This is a company product, so these are stills only, taken from the real frontend running locally against a mock API with made-up agents and data.",
+    stats: [
+      { to: 390, suffix: "+", label: "commits by me, of about 2,200 in the repo" },
+      { to: 34600, suffix: "+", label: "lines in today's code written by me, of about 281,500" },
+      { to: 355, label: "source files I have written part of" },
+      { to: 6700, suffix: "+", label: "lines in Creative Studio, nearly all of them mine" },
+    ],
+    statsNote: "Counted from git blame and the commit log. The workflow editor and fine-tuning studio are included in the totals, and I wrote very little of them.",
+    challenges: [
+      {
+        title: "A video that is too big for one request",
+        body: "Enhancer uploads can be gigabytes. The UI sends them in resumable chunks sized to what the storage service expects, shows progress, and picks up the job over a socket, falling back to polling if the socket is unavailable.",
+      },
+      {
+        title: "A designer with a lot of settings",
+        body: "The widget has colours, sizes, message types and media. Putting them in one store slice and driving the preview from the same state keeps what you edit and what you see from drifting apart.",
+      },
+      {
+        title: "Making a big UI feel like one product",
+        body: "Early screens were built one at a time. I went back through Tools, Chatflows, Agentflows, Variables and the agent pages to line up headings, spacing and a four-column layout, then fixed the mobile views.",
+      },
+    ],
+    decisions: [
+      {
+        q: "Show the plan before publishing",
+        a: "The video enhancer ends in a review step. Publishing to someone's YouTube channel cannot be undone quietly, so nothing goes out until the person has seen the title, description and chapters.",
+      },
+      {
+        q: "Keep Spaces in the browser",
+        a: "Canvases are saved in the browser, one per space. That makes them open instantly and needs no backend, but they do not sync across devices.",
+      },
+      {
+        q: "Mark unfinished tools honestly",
+        a: "Video generation, clip editing and 3D appear in the studio with a Soon Available badge instead of being hidden, so the roadmap is visible without pretending the tools work.",
+      },
+    ],
   },
   {
     slug: "hdfc-translator",
