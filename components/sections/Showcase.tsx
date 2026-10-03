@@ -1,135 +1,124 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { TransitionLink } from "@/components/TransitionLink";
-import { ArrowRightIcon } from "@/components/ui/Icons";
+import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/ui/Icons";
 import { projects, type Project } from "@/data/projects";
-import { useMediaQuery } from "@/lib/hooks";
 
-function Card({ project: p, index, pinned }: { project: Project; index: number; pinned: boolean }) {
-  const shot = p.screens?.[0];
+const EASE = [0.22, 1, 0.36, 1] as const;
+const FEATURED = 5;
+
+/** Column spans on a 12-column grid (md and up): two wide cards, then three equal ones. */
+const SPAN = ["md:col-span-7", "md:col-span-5", "md:col-span-4", "md:col-span-4", "md:col-span-4"];
+
+function Card({ project: p, index }: { project: Project; index: number }) {
+  // a still screenshot, not the video poster (a poster can be a blank first frame)
+  const shot = p.screens?.find((x) => !x.video) ?? p.screens?.[0];
+  const big = index < 2;
   return (
-    <TransitionLink
-      href={`/work/${p.slug}`}
-      label={p.name}
-      color={p.color}
-      data-cursor="View"
-      style={{ background: `var(--${p.color})` }}
-      className={`group relative flex shrink-0 flex-col justify-between overflow-hidden rounded-[2rem] p-7 text-ink sm:p-9 ${
-        pinned ? `h-[70vh] min-h-[21rem] max-h-[36rem] ${shot ? "w-[min(88vw,52rem)]" : "w-[min(80vw,30rem)]"}` : "min-h-[26rem] w-full"
-      }`}
+    <motion.li
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      transition={{ duration: 0.7, delay: (index % 3) * 0.08, ease: EASE }}
+      className={SPAN[index]}
     >
-      <span aria-hidden className="font-display pointer-events-none absolute -right-4 -top-8 text-[11rem] font-extrabold leading-none opacity-[0.12] transition-transform duration-500 group-hover:-translate-x-3 group-hover:translate-y-3 group-hover:rotate-6">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      {shot && (
-        <div aria-hidden className="pointer-events-none absolute -right-14 bottom-[9%] hidden w-[55%] rotate-[-4deg] overflow-hidden rounded-2xl border border-ink/20 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg] md:block">
-          <Image src={shot.src} alt="" width={2880} height={1800} sizes="500px" className="block h-auto w-full" />
+      <TransitionLink
+        href={`/work/${p.slug}`}
+        label={p.name}
+        color={p.color}
+        data-cursor="View"
+        style={{ background: `var(--${p.color})` }}
+        className={`group relative flex h-full flex-col overflow-hidden rounded-3xl text-ink transition-transform duration-500 hover:-translate-y-1 ${big ? "min-h-[24rem]" : "min-h-[22rem]"}`}
+      >
+        <div className="flex items-start justify-between gap-4 p-6 pb-0 sm:p-7 sm:pb-0">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] opacity-70">
+              <span className="tabular-nums">{String(index + 1).padStart(2, "0")}</span>
+              <span aria-hidden> · </span>
+              {p.period ?? p.kind}
+            </p>
+            <h3 className={`font-display mt-3 font-extrabold leading-[0.98] tracking-tight ${big ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"}`}>{p.name}</h3>
+            {big && <p className="mt-3 line-clamp-2 max-w-md text-[0.9375rem] leading-snug opacity-80">{p.tagline}</p>}
+          </div>
+          <span
+            aria-hidden
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ink text-lime transition-transform duration-300 group-hover:-rotate-45 group-hover:scale-110"
+          >
+            <ArrowUpRightIcon size={18} />
+          </span>
         </div>
-      )}
-      {/* text keeps its own column when there is a screenshot, so the two never overlap */}
-      <div className={`relative ${shot ? "md:max-w-[44%]" : ""}`}>
-        <p className="text-sm font-semibold opacity-70">{p.period ?? p.kind}</p>
-        <h3 className="font-display mt-3 font-bold leading-[1]" style={{ fontSize: "clamp(1.75rem, min(4.2vw, 6.8vh), 3.25rem)" }}>
-          {p.name}
-        </h3>
-        <p className={`mt-4 line-clamp-4 text-[0.9375rem] leading-relaxed [@media(max-height:600px)]:hidden ${shot ? "" : "max-w-sm"}`}>{p.tagline}</p>
-      </div>
-      <div className="relative flex items-end justify-between gap-4">
-        <ul className={`flex flex-wrap gap-1.5 ${shot ? "md:max-w-[44%]" : ""}`} aria-label="Tech stack">
-          {p.stack.slice(0, 3).map((t) => (
-            <li key={t} className="rounded-full bg-ink/10 px-3 py-1 text-xs font-semibold">{t}</li>
+
+        <ul className="mt-4 flex flex-wrap gap-1.5 px-6 sm:px-7" aria-label="Tech stack">
+          {p.stack.slice(0, big ? 4 : 3).map((t) => (
+            <li key={t} className="rounded-full bg-ink/10 px-2.5 py-1 text-xs font-semibold">
+              {t}
+            </li>
           ))}
         </ul>
-        <span aria-hidden className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ink text-lime transition-transform duration-300 group-hover:-rotate-45 group-hover:scale-110">
-          <ArrowRightIcon size={22} />
-        </span>
-      </div>
-    </TransitionLink>
+
+        {/* the screenshot peeks up from the bottom edge */}
+        {shot ? (
+          <div aria-hidden className="relative mx-6 mt-5 min-h-40 flex-1 overflow-hidden rounded-t-xl border border-b-0 border-ink/20 bg-black shadow-[0_-20px_50px_-20px_rgb(0_0_0/0.45)] sm:mx-7">
+            <Image
+              src={shot.src}
+              alt=""
+              fill
+              sizes="(min-width: 768px) 40vw, 90vw"
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.05]"
+            />
+          </div>
+        ) : (
+          <span aria-hidden className="font-display pointer-events-none absolute -bottom-10 -right-2 select-none text-[11rem] font-extrabold leading-none opacity-[0.12]">
+            {p.name.charAt(0)}
+          </span>
+        )}
+      </TransitionLink>
+    </motion.li>
   );
 }
 
-/**
- * Vertical scrolling drives a horizontal track while the section is pinned (md+ only).
- * Small screens and reduced-motion users get a plain vertical list instead.
- */
+/** A compact grid of the featured projects. The full list lives on /work. */
 export function Showcase() {
-  const wide = useMediaQuery("(min-width: 768px)");
-  const reduce = useReducedMotion();
-  const pinned = wide && !reduce;
-
-  const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [dist, setDist] = useState(0);
-
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], [0, -dist]);
-  const count = useTransform(scrollYProgress, (v) => String(Math.min(projects.length, Math.floor(v * projects.length) + 1)).padStart(2, "0"));
-
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!pinned || !el) return;
-    const measure = () => setDist(Math.max(0, el.scrollWidth - window.innerWidth));
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [pinned]);
-
+  const featured = projects.slice(0, FEATURED);
   return (
-    <section
-      ref={sectionRef}
-      aria-labelledby="showcase-title"
-      className="relative"
-      style={pinned ? { height: `calc(100vh + ${dist}px)` } : { padding: "6rem 0" }}
-    >
-      <div className={pinned ? "sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-20" : ""}>
-        <div className="container-page mb-8 flex items-end justify-between gap-6 sm:mb-10">
-          <h2 id="showcase-title" className="font-display font-bold leading-none" style={{ fontSize: "clamp(2.25rem, min(7vw, 11vh), 5.5rem)" }}>
+    <section aria-labelledby="showcase-title" className="py-20 sm:py-28">
+      <div className="container-page">
+        <div className="mb-8 flex items-end justify-between gap-6 sm:mb-10">
+          <h2 id="showcase-title" className="font-display text-[clamp(2.25rem,5.5vw,4.25rem)] font-bold leading-none tracking-tight">
             Selected work
           </h2>
-          {pinned && (
-            <p aria-hidden className="font-display pb-2 text-xl font-semibold tabular-nums">
-              <motion.span>{count}</motion.span>
-              <span className="text-muted"> / {String(projects.length).padStart(2, "0")}</span>
-            </p>
-          )}
+          <p aria-hidden className="font-display pb-1 text-base font-semibold tabular-nums sm:text-lg">
+            {String(featured.length).padStart(2, "0")}
+            <span className="text-muted"> / {String(projects.length).padStart(2, "0")}</span>
+          </p>
         </div>
 
-        {pinned ? (
-          <motion.div ref={trackRef} style={{ x }} className="flex w-max gap-6 pl-[max(1.25rem,calc((100vw-76rem)/2+2rem))] pr-24">
-            {projects.map((p, i) => (
-              <Card key={p.slug} project={p} index={i} pinned />
-            ))}
-            <TransitionLink
-              href="/work"
-              label="Work"
-              color="lime"
-              data-cursor="All"
-              className="font-display flex h-[70vh] min-h-[21rem] max-h-[36rem] w-[min(70vw,22rem)] shrink-0 flex-col items-start justify-end rounded-[2rem] border border-line p-9 text-4xl font-bold transition-colors hover:bg-fg hover:text-bg"
-            >
-              See all work
-              <ArrowRightIcon size={36} className="mt-4" />
-            </TransitionLink>
-          </motion.div>
-        ) : (
-          <div className="container-page flex flex-col gap-4">
-            {projects.map((p, i) => (
-              <Card key={p.slug} project={p} index={i} pinned={false} />
-            ))}
-          </div>
-        )}
+        <ul className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-12">
+          {featured.map((p, i) => (
+            <Card key={p.slug} project={p} index={i} />
+          ))}
+        </ul>
 
-        {pinned && (
-          <div aria-hidden className="container-page mt-8">
-            <motion.div style={{ scaleX: scrollYProgress }} className="h-1 origin-left rounded-full bg-fg" />
-          </div>
-        )}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="mt-4"
+        >
+          <TransitionLink
+            href="/work"
+            label="Work"
+            color="lime"
+            data-cursor="All"
+            className="font-display group flex items-center justify-between gap-4 rounded-3xl border border-line px-6 py-5 text-xl font-bold transition-colors hover:bg-fg hover:text-bg sm:px-8 sm:text-2xl"
+          >
+            <span>See all {projects.length} projects</span>
+            <ArrowRightIcon size={26} className="transition-transform duration-300 group-hover:translate-x-1" />
+          </TransitionLink>
+        </motion.div>
       </div>
     </section>
   );
