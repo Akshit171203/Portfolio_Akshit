@@ -93,17 +93,23 @@ function Bento({ items, color }: { items: { title: string; body: string }[]; col
       {items.map((f, i) => {
         const t = tones[i % tones.length];
         const muted = i % 4 === 1 || i % 4 === 2 ? "text-muted" : "opacity-75";
+        const wide = spans[i] > 1;
         return (
           <Reveal key={f.title} delay={(i % 4) * 0.05} className={SPAN[spans[i]]}>
             <div
-              className={`flex h-full min-h-[13rem] flex-col justify-between rounded-3xl p-6 transition-transform duration-500 hover:-translate-y-1 sm:p-8 ${t.cls}`}
+              className={`relative flex h-full min-h-[14rem] flex-col justify-end overflow-hidden rounded-3xl p-6 transition-transform duration-500 hover:-translate-y-1 sm:p-8 ${t.cls}`}
               style={t.style}
             >
-              <span className="font-display text-sm font-bold tabular-nums opacity-60">{pad(i + 1)}</span>
-              <div className="mt-10">
-                <h3 className="font-display text-2xl font-bold leading-tight sm:text-3xl">{f.title}</h3>
-                <p className={`mt-3 max-w-md leading-relaxed ${muted}`}>{f.body}</p>
-              </div>
+              {/* a big ghost numeral fills the space above the text on purpose */}
+              <span
+                aria-hidden
+                className="font-display pointer-events-none absolute -right-2 -top-4 select-none font-extrabold leading-none tabular-nums opacity-[0.12] sm:-top-6"
+                style={{ fontSize: wide ? "clamp(9rem, 17vw, 15rem)" : "clamp(7rem, 11vw, 10rem)" }}
+              >
+                {pad(i + 1)}
+              </span>
+              <h3 className={`font-display relative font-bold leading-[1.05] ${wide ? "text-4xl sm:text-5xl" : "text-2xl sm:text-3xl"}`}>{f.title}</h3>
+              <p className={`relative mt-4 leading-relaxed ${wide ? "max-w-xl text-lg" : "text-[0.9375rem]"} ${muted}`}>{f.body}</p>
             </div>
           </Reveal>
         );
