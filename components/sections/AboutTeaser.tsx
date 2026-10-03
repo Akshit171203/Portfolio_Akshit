@@ -6,7 +6,6 @@ import { ArrowRightIcon } from "@/components/ui/Icons";
 import { CountUp } from "@/components/ui/CountUp";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { WordReveal } from "@/components/ui/WordReveal";
-import { projects } from "@/data/projects";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -14,10 +13,11 @@ const STATEMENT = "I’m a software engineer focused on building reliable, scala
 
 const AREAS = ["Frontend architecture", "Backend APIs", "Databases", "Real-time systems", "AI-powered product experiences"];
 
+// Each figure is the verified count shown on that project's own page (git blame, commit logs, Cloudflare).
 const FIGURES = [
-  { to: 1.5, decimals: 1, suffix: "+", label: "years of professional experience", color: "lime" },
-  { to: projects.length, decimals: 0, suffix: "", label: "projects across web, AI and internal tools", color: "sky" },
-  { to: 100, decimals: 0, suffix: "", label: "commits on the CoRover.ai site, of 107", color: "pink" },
+  { to: 81, decimals: 0, suffix: "M+", label: "monthly unique visitors on the CoRover.ai site (Cloudflare-observed)", color: "lime" },
+  { to: 34600, decimals: 0, suffix: "+", label: "lines of BuilderV2 code written by me, of about 281,500", color: "sky" },
+  { to: 130, decimals: 0, suffix: "+", label: "API endpoints consumed by the WhatsApp platform’s two frontends", color: "pink" },
 ];
 
 /** Home teaser: a statement, three figures in a ledger, and the areas I work in as a numbered list. */
