@@ -20,7 +20,7 @@ npm run build && npm start
 
 Anything still `[ADD …]` renders as a dashed chip, and its link is disabled instead of dead. Search for `[ADD`.
 
-- `data/site.ts`: `MY_EMAIL`, `MY_GITHUB`, `MY_LINKEDIN`, `MY_LOCATION`, FollowUpHub URLs
+- `data/site.ts`: `MY_LOCATION`
 - `public/resume.pdf` — not included; add your PDF (or point `MY_RESUME` at a hosted URL)
 
 ## Motion

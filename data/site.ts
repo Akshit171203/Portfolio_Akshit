@@ -11,9 +11,9 @@ export const MY_NAME = "Akshit";
 export const MY_FULL_NAME = "Akshit Gupta";
 export const MY_TITLE =
   "Software Engineer | Full Stack Developer | AI-Integrated Applications";
-export const MY_EMAIL = "[ADD EMAIL]";
+export const MY_EMAIL = "akshitgupta0083@gmail.com";
 export const MY_GITHUB = "https://github.com/Akshit171203";
-export const MY_LINKEDIN = "[ADD LINKEDIN URL]";
+export const MY_LINKEDIN = "https://www.linkedin.com/in/akshitgupta17";
 /** Drop your PDF at public/resume.pdf (or point this at a hosted URL). */
 export const MY_RESUME = "/resume.pdf";
 export const MY_LOCATION = "[ADD LOCATION]";
