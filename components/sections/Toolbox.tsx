@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { skillGroups } from "@/data/skills";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const COLORS = ["coral", "lime", "lilac", "sky", "butter", "mint"] as const;
+const COLORS = ["coral", "lime", "lilac", "sky", "butter", "mint", "pink"] as const;
 /** How long each area stays up before the next one takes over. */
 const INTERVAL = 3800;
 
