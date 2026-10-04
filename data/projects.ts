@@ -328,7 +328,7 @@ export const projects: Project[] = [
       "It is a team product. I joined in September 2026 and work on both frontends: I wrote 48 of the repository's 111 commits, about half of the dashboard's source and roughly two thirds of the superadmin's components. The API, database and workers were written by a teammate, so the section on how the platform works describes what the UIs are built on, not work I authored.",
     ],
     points: [
-      "Rebuilt the dashboard's UI foundation: custom components migrated to shadcn/ui and Radix primitives, hardcoded colours replaced with design tokens and CSS variables, and a persisted dark mode.",
+      "Rebuilt the dashboard's UI foundation: custom components migrated to shadcn/ui, hardcoded colours replaced with design tokens and CSS variables, and a persisted dark mode.",
       "Upgraded both apps to Next.js 15.5 and React 19 to close critical CVEs, tightened the security config, and moved to strict TypeScript with zero-warning linting.",
       "Broke up the heaviest screens (inbox, flows, broadcasts, contacts, and a 1,209-line superadmin file) into focused components, and redesigned broadcasts with a searchable table and stats.",
       "Made the app accessible and responsive: a dev-only axe auditor, jsx-a11y linting, dark-mode contrast fixes, a mobile sidebar drawer and bottom navigation.",
@@ -387,7 +387,6 @@ export const projects: Project[] = [
       "TypeScript",
       "Tailwind CSS",
       "shadcn/ui",
-      "Radix UI",
       "TanStack Query",
       "Zustand",
       "React Flow",
@@ -484,8 +483,8 @@ export const projects: Project[] = [
     ],
     decisions: [
       {
-        q: "shadcn/ui on Radix, not custom components",
-        a: "Radix handles focus, keyboard and ARIA behaviour, and shadcn keeps the code in the repo to adapt. It replaced a pile of hand-rolled dialogs and form controls that had rendering bugs.",
+        q: "shadcn/ui, not custom components",
+        a: "Its components come with focus, keyboard and ARIA behaviour built in, and the code lives in the repo to adapt. It replaced a pile of hand-rolled dialogs and form controls that had rendering bugs.",
       },
       {
         q: "Zustand for client state, TanStack Query for server state",
@@ -828,7 +827,7 @@ export const projects: Project[] = [
     ],
     architectureNote:
       "The sign-in flow, the API layer, the workflow editor and the fine-tuning studio were mostly written by teammates. I include them because everything I built runs inside them.",
-    stack: ["React 19", "TypeScript", "Vite", "Tailwind CSS", "Radix UI", "Zustand", "Excalidraw", "Socket.IO", "React Flow", "Framer Motion", "Axios"],
+    stack: ["React 19", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "Zustand", "Excalidraw", "Socket.IO", "React Flow", "Framer Motion", "Axios"],
     color: "lilac",
     screens: [
       {

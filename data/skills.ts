@@ -16,7 +16,7 @@ export const skillGroups: { name: string; skills: string[] }[] = [
   { name: "Languages", skills: ["JavaScript", "TypeScript", "Python", "SQL"] },
   {
     name: "Frontend",
-    skills: ["React", "Next.js", "Vite", "HTML", "CSS", "Tailwind CSS", "shadcn/ui", "Radix UI", "Framer Motion"],
+    skills: ["React", "Next.js", "Vite", "HTML", "CSS", "Tailwind CSS", "shadcn/ui", "Framer Motion"],
   },
   {
     name: "UI & data libraries",
