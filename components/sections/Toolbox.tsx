@@ -1,20 +1,43 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState, type CSSProperties } from "react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { skillGroups } from "@/data/skills";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const COLORS = ["coral", "lime", "lilac", "sky", "butter", "mint"] as const;
+/** How long each area stays up before the next one takes over. */
+const INTERVAL = 3800;
 
-/** Home: an index of the areas I work in, and one colour card that shows the skills of whichever is selected. */
+/**
+ * Home: an index of the areas I work in, and one colour card that shows the skills of whichever is selected.
+ * It steps through the areas on its own while it is on screen, and holds still while someone is hovering or using the keyboard on it.
+ */
 export function Toolbox() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduced = useReducedMotion();
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { amount: 0.35 });
+  const playing = inView && !paused && !reduced;
+
+  useEffect(() => {
+    if (!playing) return;
+    const t = setTimeout(() => setActive((a) => (a + 1) % skillGroups.length), INTERVAL);
+    return () => clearTimeout(t);
+  }, [playing, active]);
+
   const group = skillGroups[active];
   const color = COLORS[active % COLORS.length];
 
   return (
-    <section aria-labelledby="toolbox" className="border-y border-line py-16 sm:py-24">
+    <section
+      ref={ref}
+      aria-labelledby="toolbox"
+      onPointerEnter={(e) => e.pointerType === "mouse" && setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+      className="border-y border-line py-16 sm:py-24"
+    >
       <div className="container-page">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-3 sm:mb-12">
           <div>
@@ -24,7 +47,7 @@ export function Toolbox() {
             </h2>
             <p className="font-display text-[clamp(1.9rem,3.8vw,3.1rem)] font-semibold leading-[1.05] tracking-tight">What I build with.</p>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed text-muted">Pick an area to see what I use in it.</p>
+          <p className="max-w-xs text-sm leading-relaxed text-muted">It steps through on its own. Hover or tap an area to pick one.</p>
         </div>
 
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-10">
@@ -43,8 +66,9 @@ export function Toolbox() {
                   aria-controls="toolbox-panel"
                   onClick={() => setActive(i)}
                   onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  className={`group flex items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors duration-300 lg:rounded-none lg:border-0 lg:border-b lg:border-line lg:px-0 lg:py-[0.95rem] ${
+                  onFocus={(e) => { setActive(i); if (e.currentTarget.matches(":focus-visible")) setPaused(true); }}
+                  onBlur={() => setPaused(false)}
+                  className={`group relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl border lg:overflow-visible px-4 py-3 text-left transition-colors duration-300 lg:rounded-none lg:border-0 lg:border-b lg:border-line lg:px-0 lg:py-[0.95rem] ${
                     on ? "border-fg/40" : "border-line"
                   }`}
                 >
@@ -65,6 +89,17 @@ export function Toolbox() {
                   <span className={`shrink-0 text-xs font-semibold tabular-nums transition-colors ${on ? "text-fg" : "text-muted"}`}>
                     {String(g.skills.length).padStart(2, "0")}
                   </span>
+                  {on && playing && (
+                    <motion.span
+                      key={`bar-${active}`}
+                      aria-hidden
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: INTERVAL / 1000, ease: "linear" }}
+                      className="absolute inset-x-0 bottom-0 h-0.5 origin-left"
+                      style={{ background: `var(--${c})` }}
+                    />
+                  )}
                 </button>
               );
             })}
