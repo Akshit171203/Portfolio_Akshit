@@ -181,6 +181,142 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "opsflow",
+    name: "OpsFlow",
+    period: "Oct 2026",
+    kind: "Personal project",
+    role: "Sole developer",
+    tagline:
+      "Incident management for engineering teams. An alert opens the incident, links the deployments that came just before it, and the team works it together with live updates, a timeline and an audit log.",
+    overview: [
+      "When a service breaks, OpsFlow opens the incident, pulls together what changed and what the logs say, and suggests likely causes from your own runbooks. A monitoring alert (Alertmanager, Grafana or a plain POST) opens an incident by itself and links the deployments from the last hour, and every open browser updates live.",
+      "It is a pnpm workspace of three packages: an Express 5 API with its job workers, a Next.js front end, and a shared package that holds the incident lifecycle. All 24 commits are mine. It is not deployed yet: the code, the Docker images and a Render Blueprint are ready, and it runs locally in a few commands.",
+    ],
+    points: [
+      "Built the incident lifecycle (Open, Investigating, Mitigated, Resolved, Closed) as plain data in a shared package, so the API enforces it and the interface only offers the moves that are allowed.",
+      "Made every change safe under concurrency: a version column makes each write conditional, so two people editing one incident get a clear conflict instead of a silent overwrite, and the change, its timeline entry and its audit row are written in one transaction.",
+      "Enforced access on the server: four roles (owner, admin, engineer, viewer), the organization taken from the signed token plus a live membership row, and every query scoped to it, so another organization's ids look like \"not found\".",
+      "Built an asynchronous pipeline on BullMQ with retries and idempotent handlers. Events are published only after the database commit and reach every open browser over Socket.IO through Redis pub/sub.",
+      "Added machine integrations: hashed, scoped, revocable API keys, Alertmanager and Grafana compatible webhooks that open incidents on their own, duplicate alerts folded into one by a partial unique index, and deployment, log and metric ingestion.",
+      "Added AI-assisted analysis that searches your runbooks with pgvector, reads the incident's logs, deployments and metrics, and returns ranked causes with evidence and confidence. The output must match a schema or it is rejected after one repair attempt, and the page labels the offline stand-in.",
+    ],
+    features: [
+      { title: "Incident lifecycle", body: "Open, Investigating, Mitigated, Resolved and Closed, with only the valid next moves offered, a timeline of every change, comments and assignees." },
+      { title: "Live updates", body: "A Live indicator, and every open window refreshes as incidents, deployments and analyses change." },
+      { title: "Alerts open incidents", body: "Alertmanager, Grafana or a plain POST opens an incident by itself, and a repeated alert attaches to the same one." },
+      { title: "Linked deployments", body: "Deployments from the last hour are linked to the incident, so the likely change is already on the page." },
+      { title: "AI analysis", body: "Ranked possible causes with confidence and evidence, suggested next steps, and a clear label when the answer came from the offline analyzer." },
+      { title: "Runbooks", body: "Write a playbook once. It is indexed in sections and searched when an incident needs guidance." },
+      { title: "Audit log", body: "Who did what, from which IP address and browser, kept as a record apart from the timeline." },
+      { title: "Command palette", body: "Ctrl or Cmd+K jumps to a page or an incident, starts a new incident, or switches between the light and dark themes." },
+    ],
+    architecture: [
+      { title: "Three packages, one workspace", body: "The backend, the front end and the shared package live in one pnpm repository, and the first two deploy separately." },
+      { title: "Same-origin API", body: "The browser only talks to the web origin, and Next.js proxies /api/* to the API, so the session cookie stays first-party even when the two are hosted on different domains." },
+      { title: "Events after commit", body: "An event is published only after its transaction commits, so a worker never sees a change that rolled back. The known gap: if the process dies between commit and publish, that event is lost, and an outbox table would close it." },
+      { title: "Postgres at the centre", body: "Postgres holds the data, the audit trail and the runbook vectors (pgvector). Redis carries the job queues and the live-update fan-out." },
+    ],
+    stack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS 4", "Express 5", "PostgreSQL", "pgvector", "Drizzle ORM", "Redis", "BullMQ", "Socket.IO", "Docker"],
+    color: "lilac",
+    cover: "/projects/opsflow/dashboard.webp",
+    screens: [
+      {
+        src: "/projects/opsflow/demo-poster.jpg",
+        video: { mp4: "/projects/opsflow/demo.mp4", webm: "/projects/opsflow/demo.webm" },
+        badge: "Live demo",
+        alt: "Screen recording of OpsFlow: the sign-in page, the dashboard, an incident with its AI analysis and logs, the command palette switching to the dark theme, and a service page",
+        caption: "Live demo: sign in, the dashboard, an incident with its analysis, the command palette and the dark theme",
+      },
+      {
+        src: "/projects/opsflow/dashboard.webp",
+        alt: "The overview dashboard with open incidents, critical incidents, degraded services, a seven-day incident chart, service health, recent deployments and activity",
+        caption: "Overview: what needs attention, service health, deployments and activity",
+      },
+      {
+        src: "/projects/opsflow/incident.webp",
+        alt: "An incident page with its lifecycle stepper, details, an AI analysis with ranked causes and evidence, a timeline and comments",
+        caption: "An incident: lifecycle, details, ranked causes with evidence, timeline",
+      },
+      {
+        src: "/projects/opsflow/incident-dark.webp",
+        alt: "The same incident page in the dark theme",
+        caption: "The same page in the dark theme",
+      },
+      {
+        src: "/projects/opsflow/palette.webp",
+        alt: "The command palette open over the dashboard, listing pages, a recent incident and actions",
+        caption: "Command palette: pages, incidents and actions from the keyboard",
+      },
+      {
+        src: "/projects/opsflow/service.webp",
+        alt: "A service page with error rate, latency and traffic, two 24-hour charts and recent deployments",
+        caption: "A service: current figures, 24-hour charts and its deployments",
+      },
+      {
+        src: "/projects/opsflow/runbooks.webp",
+        alt: "The runbooks list showing five indexed runbooks, each with its number of sections",
+        caption: "Runbooks, indexed for the AI analysis to search",
+      },
+      {
+        src: "/projects/opsflow/integrations.webp",
+        alt: "The integrations page with an API key form and ready-made snippets for reporting deployments, alerts and logs",
+        caption: "Integrations: API keys and snippets for connecting a service",
+      },
+      {
+        src: "/projects/opsflow/login.webp",
+        alt: "The sign-in page with an auto-advancing product tour beside the form",
+        caption: "Sign in, beside an auto-advancing product tour",
+      },
+    ],
+    screensNote:
+      "The recording and screenshots are the real app running locally on its seeded demo data. The AI analysis shown comes from the built-in offline analyzer, which the page itself labels. The Gemini path is tested against a local stub and has not been run against the live API.",
+    stats: [
+      { to: 24, label: "commits, all mine" },
+      { to: 20, label: "database tables, across 8 migrations" },
+      { to: 30, label: "test files, run against a real Postgres and Redis" },
+      { to: 14800, suffix: "+", label: "lines of code and styles across the backend, front end and shared package" },
+    ],
+    statsNote: "Counted from the commit log and the source files. Test code is not included in the line count.",
+    flows: [
+      {
+        title: "From alert to incident",
+        steps: ["Alert arrives", "Duplicate check", "Incident opens", "Last hour's deploys linked", "Every browser updates"],
+      },
+      {
+        title: "AI analysis",
+        steps: ["Analyze pressed", "Job queued", "Logs, metrics, deploys and runbooks gathered", "Model or offline analyzer", "Schema check", "Causes ranked with evidence"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Two alerts at once, one incident",
+        body: "Alertmanager can send the same alert twice within milliseconds, and check-then-insert would open two incidents. So the database decides: a partial unique index on organization and fingerprint for open incidents. Both inserts race, the loser catches the violation and attaches to the winner, and a test fires six alerts at once.",
+      },
+      {
+        title: "Two people, one incident",
+        body: "Edits are decided by people reading a screen, so a row lock would be held across human think time. Each write carries the version it read and fails with a conflict if it is stale. When a move is also not allowed, the stale version is reported first, because the reader should reload before anything else.",
+      },
+      {
+        title: "A log panel that stayed empty",
+        body: "Logs were tagged only with an incident id, so incidents opened by alerts showed an empty log panel. The tests did not catch it; running the demo shop did. The panel now shows the service's logs from shortly before the incident.",
+      },
+    ],
+    decisions: [
+      {
+        q: "Optimistic locking, not row locks",
+        a: "A lock held while someone reads a screen would block everyone else. A version column makes the write conditional, and the loser gets a clear conflict message.",
+      },
+      {
+        q: "pgvector inside Postgres, not a vector database",
+        a: "A few hundred runbook chunks per organization do not justify another service. The vectors sit next to the runbooks, in the same transaction, with the tenant filter in the same query.",
+      },
+      {
+        q: "SHA-256 for API keys, argon2 for passwords",
+        a: "An API key is 256 random bits, so there is nothing to guess and a slow hash would only slow every ingest request. Passwords are low-entropy, so they use argon2.",
+      },
+    ],
+  },
+  {
     slug: "whatsapp-platform",
     name: "WhatsApp Platform",
     period: "Sep 2026 – Present",
